@@ -80,13 +80,8 @@
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.5)}
   .btn-ghost{border-color:var(--line);color:var(--offwhite)}
   .btn-ghost:hover{border-color:var(--cyan);background:rgba(0,212,255,.06)}
-  .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--ink-soft);
-    font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;opacity:0;animation:rise 1s 1.1s forwards}
-  .scroll-hint::after{content:"";display:block;width:1px;height:36px;margin:14px auto 0;
-    background:linear-gradient(var(--cyan),transparent);animation:drop 2s ease-in-out infinite}
-  @keyframes drop{0%,100%{opacity:.2;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
   @keyframes rise{to{opacity:1;transform:translateY(0)}}
-  .eyebrow,h1,.tagline,.sub,.gift,.cta-row,.moon-mark,.scroll-hint{transform:translateY(24px)}
+  .eyebrow,h1,.tagline,.sub,.gift,.cta-row,.moon-mark{transform:translateY(24px)}
 
   section{padding:120px 0;position:relative}
   .reveal{opacity:0;transform:translateY(40px);transition:all 1s cubic-bezier(.16,1,.3,1)}
@@ -196,7 +191,6 @@
     <a href="#access" class="btn btn-primary">↓ Download for Android</a>
     <a href="#story" class="btn btn-ghost">Discover the story</a>
   </div>
-  <div class="scroll-hint">Scroll</div>
 </header>
 
 <section class="story" id="story">
