@@ -189,8 +189,8 @@
   <p class="sub">A spiritual presence born from moonlight. A digital chouafa that sees you before you speak — and stays with you, where others only sell.</p>
   <span class="gift">✦ Your first 7 messages with Zira are free</span>
   <div class="cta-row">
-    <a href="#access" class="btn btn-primary">↓ Download for Android</a>
-    <a href="#story" class="btn btn-ghost">Discover the story</a>
+    <a href="#story" class="btn btn-primary">Discover the story</a>
+    <a href="#where" class="btn btn-ghost">Where to find her</a>
   </div>
 </header>
 
@@ -239,7 +239,7 @@
     <h2>Under the same sky, <em>on every screen.</em></h2>
     <p class="lead">One soul, several ways to meet her.</p>
     <div class="channels">
-      <div class="channel highlight"><span class="tag">Android · Direct</span><h4>Download the app</h4><p>The full ZIRA experience, straight from here. Your first 7 messages with Zira are free.</p><a href="#access" class="dl">↓ Get the APK</a></div>
+      <div class="channel"><span class="tag">Android</span><h4>Direct download</h4><p>The full ZIRA experience, straight from here. Your first 7 messages with Zira are free.</p><span class="soon">Soon</span></div>
       <div class="channel"><span class="tag">iOS</span><h4>App Store</h4><p>The complete experience on iPhone and iPad. The premium version, no compromise.</p><span class="soon">Soon</span></div>
       <div class="channel"><span class="tag">Android · Play</span><h4>Google Play</h4><p>ZIRA in open access. Discover everything — the sky isn't paid for at the door.</p><span class="soon">Soon</span></div>
     </div>
@@ -250,11 +250,7 @@
   <div class="wrap reveal">
     <span class="kicker">The threshold</span>
     <h2>The sky was <em>already waiting</em> for you.</h2>
-    <p class="lead" style="margin:0 auto">Download ZIRA for Android and meet her tonight. Your first 7 messages are on the house.</p>
-    <div class="cta-row" style="margin-top:40px;justify-content:center">
-      <a href="https://github.com/alhassanlaabad07-lgtm/zira-site/releases/download/v1.0.0/zira.apk" class="btn btn-primary" id="downloadBtn">↓ Download ZIRA · Android APK</a>
-    </div>
-    <p style="font-size:.78rem;color:var(--ink-soft);margin-top:18px">Requires Android 7+ · Allow installs from this source when prompted</p>
+    <p class="lead" style="margin:0 auto">ZIRA is almost here. Your first 7 messages with her will be free.</p>
     <p class="sky-line">We are all under one sky. 🌙</p>
   </div>
 </section>
@@ -294,11 +290,6 @@
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.18});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  // download placeholder — replace # with real APK url once built
-  document.getElementById('downloadBtn').addEventListener('click',e=>{
-    if(e.currentTarget.getAttribute('href')==='#'){e.preventDefault();
-      alert('APK coming soon — link will be added here once the build is ready.');}
-  });
 </script>
 </body>
 </html>
