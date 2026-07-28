@@ -296,12 +296,12 @@
 
     /* magnitude distribution: few bright stars, many faint ones */
     function buildStars(){
-      const n=Math.round(Math.min(700,Math.max(400,(W*H)/3500)));
+      const n=Math.round(Math.min(260,Math.max(140,(W*H)/9000)));
       stars=[];
       for(let i=0;i<n;i++){
         const mag=Math.pow(Math.random(),2.4);       // skewed toward faint
-        const r=0.4+(1-mag)*1.6;                     // bright stars slightly larger
-        const maxA=0.28+(1-mag)*0.52;                // kept subtle: max ~0.8, faint ~0.28
+        const r=0.35+(1-mag)*1.05;                   // bright stars slightly larger
+        const maxA=0.13+(1-mag)*0.29;                // discreet: max ~0.42, faint ~0.13
         const temp=Math.random();
         const color=temp<0.72?'255,255,255':temp<0.87?'255,231,190':'183,226,255'; // white / warm / pale cyan
         stars.push({
@@ -345,11 +345,11 @@
         ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
         ctx.fillStyle='rgba('+s.color+','+a.toFixed(3)+')';
         ctx.fill();
-        /* soft halo on the brightest few */
-        if(s.maxA>0.7){
+        /* whisper of a halo, only on the brightest ~quarter */
+        if(s.maxA>0.41){
           ctx.beginPath();
-          ctx.arc(s.x,s.y,s.r*2.6,0,Math.PI*2);
-          ctx.fillStyle='rgba('+s.color+','+(a*0.12).toFixed(3)+')';
+          ctx.arc(s.x,s.y,s.r*2,0,Math.PI*2);
+          ctx.fillStyle='rgba('+s.color+','+(a*0.05).toFixed(3)+')';
           ctx.fill();
         }
       }
