@@ -35,9 +35,8 @@
       radial-gradient(ellipse 60% 50% at 85% 20%, rgba(0,212,255,.10), transparent 55%),
       radial-gradient(ellipse 70% 60% at 10% 80%, rgba(15,11,74,.9), transparent 60%),
       linear-gradient(180deg, var(--deep), #050318 60%, #04020f);}
-  .stars{position:fixed;inset:0;z-index:-1;pointer-events:none}
-  .stars span{position:absolute;border-radius:50%;background:var(--offwhite);opacity:0;animation:twinkle linear infinite}
-  @keyframes twinkle{0%,100%{opacity:.05}50%{opacity:.9}}
+  /* canvas starfield: sits between the .sky gradient and the content */
+  #skyfield{position:fixed;inset:0;z-index:-1;pointer-events:none;width:100%;height:100%}
   .grain{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
 
@@ -150,7 +149,7 @@
 </head>
 <body>
 <div class="sky"></div>
-<div class="stars" id="stars"></div>
+<canvas id="skyfield" aria-hidden="true"></canvas>
 <div class="grain"></div>
 
 <nav id="nav">
@@ -209,14 +208,17 @@
   <div class="wrap reveal">
     <span class="kicker">What ZIRA sees</span>
     <h2>Living traditions, <em>gathered into one voice.</em></h2>
-    <p class="lead">Six ways to be read — from the Tarot of Marseille to the planetary energies of Moroccan tradition. Each ancient, each reinterpreted for you.</p>
+    <p class="lead">Nine ways to be read — from the Tarot of Marseille to the sky turning above you right now. Each ancient, each reinterpreted for you.</p>
     <div class="feat-grid">
-      <div class="feat"><span class="glyph">✦</span><span class="num">01</span><h3>Tarot of Marseille</h3><p>78 cards, 6 spreads. A personalized reading that speaks to your situation, not a generic one.</p></div>
-      <div class="feat"><span class="glyph">☾</span><span class="num">02</span><h3>Astrology</h3><p>Three schools in one — Western, Vedic and Moroccan. The sky read through many eyes.</p></div>
-      <div class="feat"><span class="glyph">∴</span><span class="num">03</span><h3>Numerology</h3><p>Pythagorean method: life path, expression, soul urge. Your numbers decoded.</p></div>
-      <div class="feat"><span class="glyph">◐</span><span class="num">04</span><h3>Lyoum — energy of the day</h3><p>Each day ruled by one of the seven planets, in Moroccan tradition. Your inner weather.</p></div>
-      <div class="feat"><span class="glyph">✶</span><span class="num">05</span><h3>Zira AI</h3><p>A conversation with memory. She knows your profile, remembers you, and grows as you return.</p></div>
-      <div class="feat"><span class="glyph">❋</span><span class="num">06</span><h3>Conscious Draw</h3><p>A 9-card draw guided by your subconscious. For the questions you don't yet know how to ask.</p></div>
+      <div class="feat"><span class="glyph">✦</span><span class="num">01</span><h3>Tarot</h3><p>78 cards, 11 spreads — from a single card to the Celtic Cross and the Tree of Life. Four deck styles, yours to choose.</p></div>
+      <div class="feat"><span class="glyph">◈</span><span class="num">02</span><h3>Carta Maghribia</h3><p>The 40-card baraja as it is read across the Maghreb. Ten spreads of its own, from the cross of five to the line of a life.</p></div>
+      <div class="feat"><span class="glyph">❋</span><span class="num">03</span><h3>Conscious Draw</h3><p>You give the numbers, the cards answer. A draw guided by your subconscious — for the questions you don't yet know how to ask.</p></div>
+      <div class="feat"><span class="glyph">◇</span><span class="num">04</span><h3>Matrix of Destiny</h3><p>Your birth date alone draws it: portrait, talents, lesson, karma, essence, the four ancestors, the mission. Computed once, yours for life.</p></div>
+      <div class="feat"><span class="glyph">☽</span><span class="num">05</span><h3>Vedic Kundli</h3><p>The sidereal chart of Jyotish — houses, planets, and the dashas that time your seasons.</p></div>
+      <div class="feat"><span class="glyph">☾</span><span class="num">06</span><h3>Live Sky</h3><p>The sky exactly as it turns above you now, in three dimensions — with your natal wheel and its aspects beside it.</p></div>
+      <div class="feat"><span class="glyph">∴</span><span class="num">07</span><h3>Numerology</h3><p>Pythagorean method: life path, expression, soul urge. Your numbers decoded.</p></div>
+      <div class="feat"><span class="glyph">◐</span><span class="num">08</span><h3>Lyoum — energy of the day</h3><p>Each day ruled by one of the seven planets — its hour, its colour, its stone. Your inner weather.</p></div>
+      <div class="feat"><span class="glyph">✶</span><span class="num">09</span><h3>Zira herself</h3><p>A conversation with memory. She knows your profile, remembers you, and grows as you return — in eight languages.</p></div>
     </div>
   </div>
 </section>
@@ -277,11 +279,112 @@
 </footer>
 
 <script>
-  const sky=document.getElementById('stars');
-  for(let i=0;i<90;i++){const s=document.createElement('span');
-    s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';
-    s.style.animationDuration=(2+Math.random()*4)+'s';s.style.animationDelay=Math.random()*5+'s';
-    const sz=Math.random()*2+1;s.style.width=sz+'px';s.style.height=sz+'px';sky.appendChild(s);}
+  /* === Skyfield: realistic stars + rare meteors (replaces old DOM dots) === */
+  (function(){
+    const canvas=document.getElementById('skyfield');
+    const ctx=canvas.getContext('2d');
+    let W=0,H=0,dpr=1,stars=[],meteors=[],rafId=null,lastT=0,nextMeteorAt=0;
+
+    function resize(){
+      dpr=Math.min(window.devicePixelRatio||1,2);
+      W=window.innerWidth;H=window.innerHeight;
+      canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
+      canvas.style.width=W+'px';canvas.style.height=H+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+      buildStars();
+    }
+
+    /* magnitude distribution: few bright stars, many faint ones */
+    function buildStars(){
+      const n=Math.round(Math.min(700,Math.max(400,(W*H)/3500)));
+      stars=[];
+      for(let i=0;i<n;i++){
+        const mag=Math.pow(Math.random(),2.4);       // skewed toward faint
+        const r=0.4+(1-mag)*1.6;                     // bright stars slightly larger
+        const maxA=0.28+(1-mag)*0.52;                // kept subtle: max ~0.8, faint ~0.28
+        const temp=Math.random();
+        const color=temp<0.72?'255,255,255':temp<0.87?'255,231,190':'183,226,255'; // white / warm / pale cyan
+        stars.push({
+          x:Math.random()*W,y:Math.random()*H,r,maxA,
+          baseA:maxA*0.35,
+          color,
+          phase:Math.random()*Math.PI*2,
+          speed:0.3+Math.random()*1.1                // twinkle rad/s, gentle
+        });
+      }
+    }
+
+    function spawnMeteor(t){
+      if(meteors.length>=2)return;                   // at most 1-2 concurrent
+      const angle=(28+Math.random()*16)*Math.PI/180; // diagonal, slightly varied
+      const speed=520+Math.random()*280;             // px/s -> ~0.5-1 s flight
+      const dir=Math.random()<0.5?1:-1;              // fall left-down or right-down
+      const len=110+Math.random()*120;               // trail length variance
+      meteors.push({
+        x:W*0.15+Math.random()*W*0.7,                // start in top region
+        y:-20+Math.random()*H*0.22,
+        vx:Math.cos(angle)*speed*dir,
+        vy:Math.sin(angle)*speed,
+        len,
+        brightness:0.55+Math.random()*0.4,
+        born:t,life:0.5+Math.random()*0.5            // seconds
+      });
+      nextMeteorAt=t+7000+Math.random()*8000;        // every ~7-15 s
+    }
+
+    function frame(t){
+      if(document.hidden){rafId=null;return;}        // pause when tab hidden
+      if(!lastT){lastT=t;nextMeteorAt=t+2500+Math.random()*4000;} // first meteor after a few s
+      const dt=Math.min((t-lastT)/1000,0.05);lastT=t;
+      ctx.clearRect(0,0,W,H);
+
+      /* stars: sinusoidal twinkle per star */
+      for(const s of stars){
+        const a=s.baseA+(s.maxA-s.baseA)*(0.5+0.5*Math.sin(s.phase+t/1000*s.speed));
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle='rgba('+s.color+','+a.toFixed(3)+')';
+        ctx.fill();
+        /* soft halo on the brightest few */
+        if(s.maxA>0.7){
+          ctx.beginPath();
+          ctx.arc(s.x,s.y,s.r*2.6,0,Math.PI*2);
+          ctx.fillStyle='rgba('+s.color+','+(a*0.12).toFixed(3)+')';
+          ctx.fill();
+        }
+      }
+
+      /* meteors: bright head + fading gradient trail, ease-out */
+      if(t>=nextMeteorAt)spawnMeteor(t);
+      meteors=meteors.filter(m=>{
+        m.x+=m.vx*dt;m.y+=m.vy*dt;
+        const p=(t-m.born)/1000/m.life;
+        if(p>=1||m.y>H+80||m.x<-160||m.x>W+160)return false;
+        const ease=1-Math.pow(p,1.6);                // ease-out fade
+        const a=ease*m.brightness;
+        const tx=m.x-m.vx*(m.len/Math.hypot(m.vx,m.vy));
+        const ty=m.y-m.vy*(m.len/Math.hypot(m.vx,m.vy));
+        const g=ctx.createLinearGradient(m.x,m.y,tx,ty);
+        g.addColorStop(0,'rgba(255,255,255,'+a.toFixed(3)+')');
+        g.addColorStop(0.35,'rgba(200,230,255,'+(a*0.5).toFixed(3)+')');
+        g.addColorStop(1,'rgba(200,230,255,0)');
+        ctx.strokeStyle=g;ctx.lineWidth=1.6;ctx.lineCap='round';
+        ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(tx,ty);ctx.stroke();
+        ctx.beginPath();ctx.arc(m.x,m.y,1.6,0,Math.PI*2);
+        ctx.fillStyle='rgba(255,255,255,'+Math.min(1,a*1.3).toFixed(3)+')';
+        ctx.fill();
+        return true;
+      });
+
+      rafId=requestAnimationFrame(frame);
+    }
+
+    function start(){if(rafId===null){lastT=0;rafId=requestAnimationFrame(frame);}}
+    addEventListener('resize',resize,{passive:true});
+    document.addEventListener('visibilitychange',()=>{if(!document.hidden)start();});
+    resize();start();
+  })();
+  /* === /Skyfield === */
   const nav=document.getElementById('nav');
   addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
   const burger=document.getElementById('burger'),menu=document.getElementById('menu');
