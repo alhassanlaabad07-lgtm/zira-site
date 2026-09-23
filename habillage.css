@@ -1,0 +1,57 @@
+/*
+  habillage.css — LE STYLE COMMUN DES SOUS-PAGES (refonte du 2026-09-23)
+
+  terms/, refunds/, privacy/, android/ et 404.html le chargent : les mêmes
+  jetons que l'accueil, le même en-tête (le sigle et le nom, comme dans le
+  menu de l'accueil) et le même pied de page. L'accueil garde son style en
+  ligne, parce qu'il porte le ciel animé ; payer/ garde aussi le sien, parce
+  qu'une page de paiement ne doit dépendre de rien d'autre.
+
+  Les jetons doublent ceux de index.html : en changer un, c'est changer les
+  deux.
+*/
+:root{
+  --deep:#070524;
+  --royal:#1447A5;
+  --cyan:#00D4FF;
+  --gold:#D4AF37;
+  --offwhite:#F0F4FF;
+  --ink:rgba(240,244,255,.82);
+  --ink-soft:rgba(240,244,255,.55);
+  --line:rgba(240,244,255,.12);
+  --display:'Cormorant Garamond',Georgia,serif;
+  --body:'Inter',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.7;
+  -webkit-font-smoothing:antialiased;background-color:var(--deep);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
+    linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
+  padding:0 20px 40px}
+
+/* L'en-tête : le sigle (sigle.svg, tiré du <symbol> de l'accueil) et le nom */
+.entete{display:flex;justify-content:center;padding:32px 0 44px}
+.logo{display:inline-flex;align-items:center;gap:11px;font-family:var(--display);font-size:1.4rem;
+  letter-spacing:.32em;font-weight:500;color:var(--offwhite);text-decoration:none}
+.logo img{display:block;width:30px;height:27px}
+
+/* Le pied de page : les liens de celui de l'accueil */
+.pied{max-width:680px;margin:72px auto 0;padding-top:28px;border-top:1px solid var(--line)}
+.pied nav{display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;font-size:13px}
+.pied a{color:var(--ink-soft);text-decoration:none;transition:color .3s}
+.pied a:hover,.pied a[aria-current="page"]{color:var(--offwhite)}
+
+/* Les pages de texte : conditions, remboursements, confidentialité */
+.texte{max-width:680px;margin:0 auto}
+.texte h1{font-family:var(--display);font-weight:400;font-size:clamp(2.4rem,7vw,3.1rem);line-height:1.1;color:var(--offwhite)}
+.texte .maj{font-size:13px;color:var(--ink-soft);margin:8px 0 32px}
+.texte .encadre{border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.05);border-radius:14px;
+  padding:16px 20px;margin-top:14px}
+.texte h2{font-family:var(--display);font-weight:500;font-size:26px;line-height:1.25;color:var(--offwhite);margin:40px 0 10px}
+.texte p,.texte li{font-size:15.5px}
+.texte p+p,.texte p+ul,.texte ul+p{margin-top:12px}
+.texte ul{padding-inline-start:22px}
+.texte li+li{margin-top:6px}
+.texte strong{color:var(--offwhite);font-weight:500}
+.texte a{color:var(--cyan);text-underline-offset:3px}

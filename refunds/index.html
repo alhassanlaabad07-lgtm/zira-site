@@ -29,48 +29,11 @@
   solde. « Pas entamé » se lit dans l'historique : aucun débit de bulles
   après l'achat.
 -->
-<style>
-  :root{
-    --deep:#070524;
-    --cyan:#00D4FF;
-    --gold:#D4AF37;
-    --offwhite:#F0F4FF;
-    --ink:rgba(240,244,255,.82);
-    --ink-soft:rgba(240,244,255,.55);
-    --line:rgba(240,244,255,.14);
-    --display:'Cormorant Garamond',Georgia,serif;
-    --body:'Inter',system-ui,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.7;
-    -webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
-      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
-    padding:48px 20px 40px}
-  main,footer{max-width:680px;margin:0 auto}
-  .sigle{display:block;text-align:center;font-family:var(--display);font-size:22px;letter-spacing:.35em;
-    color:var(--offwhite);text-decoration:none;margin-bottom:40px;padding-inline-start:.35em}
-  h1{font-family:var(--display);font-weight:500;font-size:40px;line-height:1.15;color:var(--offwhite)}
-  .maj{font-size:13px;color:var(--ink-soft);margin:6px 0 32px}
-  .encadre{border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.05);border-radius:14px;
-    padding:16px 20px;margin-top:14px}
-  h2{font-family:var(--display);font-weight:500;font-size:26px;line-height:1.25;color:var(--offwhite);margin:40px 0 10px}
-  p,li{font-size:15.5px}
-  p+p,p+ul,ul+p{margin-top:12px}
-  ul{padding-inline-start:22px}
-  li+li{margin-top:6px}
-  strong{color:var(--offwhite);font-weight:500}
-  a{color:var(--cyan);text-underline-offset:3px}
-  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
-    display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;font-size:13px}
-  footer a{color:var(--ink-soft);text-decoration:none}
-  footer a:hover,footer a[aria-current="page"]{color:var(--offwhite)}
-</style>
+<link rel="stylesheet" href="/habillage.css">
 </head>
 <body>
-<main>
-  <a class="sigle" href="/">ZIRA</a>
+<header class="entete"><a class="logo" href="/"><img src="/sigle.svg" alt="" width="30" height="27">ZIRA</a></header>
+<main class="texte">
   <h1>Refund Policy</h1>
   <p class="maj">Last updated: September 23, 2026</p>
 
@@ -106,13 +69,15 @@
   <p>Write to us at <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a>. This policy is part of our <a href="/terms/">Terms of Service</a>.</p>
 </main>
 
-<footer>
-  <a href="/">ZIRA</a>
-  <a href="/#pricing">Pricing</a>
-  <a href="/terms/">Terms</a>
-  <a href="/refunds/" aria-current="page">Refunds</a>
-  <a href="/privacy/">Privacy</a>
-  <a href="mailto:zira.app.contact@gmail.com">Contact</a>
+<footer class="pied">
+  <nav aria-label="Site">
+    <a href="/">ZIRA</a>
+    <a href="/#pricing">Pricing</a>
+    <a href="/terms/">Terms</a>
+    <a href="/refunds/" aria-current="page">Refunds</a>
+    <a href="/privacy/">Privacy</a>
+    <a href="mailto:zira.app.contact@gmail.com">Contact</a>
+  </nav>
 </footer>
 </body>
 </html>

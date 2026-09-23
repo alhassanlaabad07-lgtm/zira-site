@@ -42,27 +42,12 @@
   reste : au pire il mène à une page GitHub introuvable, jamais à l'ancienne
   app.
 -->
+<!-- Jetons, fond, en-tête et pied de page : habillage.css, commun aux
+     sous-pages. Ne reste ici que ce qui est propre au téléchargement. -->
+<link rel="stylesheet" href="/habillage.css">
 <style>
-  :root{
-    --deep:#070524;
-    --cyan:#00D4FF;
-    --offwhite:#F0F4FF;
-    --ink:rgba(240,244,255,.82);
-    --ink-soft:rgba(240,244,255,.55);
-    --line:rgba(240,244,255,.14);
-    --display:'Cormorant Garamond',Georgia,serif;
-    --body:'Inter',system-ui,sans-serif;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-    background:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
-      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
-    padding:48px 20px 64px}
+  body{line-height:1.6}
   main{max-width:460px;margin:0 auto}
-  .sigle{display:block;text-align:center;font-family:var(--display);font-size:22px;letter-spacing:.35em;
-    color:var(--offwhite);text-decoration:none;margin-bottom:40px;padding-inline-start:.35em}
   h1{font-family:var(--display);font-weight:500;font-size:38px;line-height:1.15;color:var(--offwhite);
     text-align:center;margin-bottom:12px}
   .chapeau{text-align:center;color:var(--ink-soft);margin-bottom:32px}
@@ -79,11 +64,12 @@
   li strong{color:var(--offwhite);font-weight:500}
   .iphone{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);text-align:center;
     font-size:14px;color:var(--ink-soft)}
+  .iphone a{color:var(--cyan);text-underline-offset:3px}
 </style>
 </head>
 <body>
+<header class="entete"><a class="logo" href="/"><img src="/sigle.svg" alt="" width="30" height="27">ZIRA</a></header>
 <main>
-  <a class="sigle" href="/">ZIRA</a>
   <h1 data-t="titre">ZIRA for Android</h1>
   <p class="chapeau" data-t="chapeau"></p>
 
@@ -100,6 +86,17 @@
 
   <p class="iphone" data-t="iphone"></p>
 </main>
+
+<footer class="pied">
+  <nav aria-label="Site">
+    <a href="/">ZIRA</a>
+    <a href="/#pricing" data-t="pied_prix">Pricing</a>
+    <a href="/terms/" data-t="pied_conditions">Terms</a>
+    <a href="/refunds/" data-t="pied_remboursements">Refunds</a>
+    <a href="/privacy/" data-t="pied_confidentialite">Privacy</a>
+    <a href="mailto:zira.app.contact@gmail.com" data-t="pied_contact">Contact</a>
+  </nav>
+</footer>
 
 <script>
 (function () {
@@ -123,7 +120,9 @@
       etape2: '<strong>Open the downloaded file.</strong> Android asks you to allow your browser to install apps: allow it, then go back.',
       etape3: '<strong>If Play Protect shows a warning,</strong> tap “More details”, then “Install anyway”.',
       etape4: '<strong>Updates:</strong> ZIRA will tell you herself when a new version is out. Install it over the old one, <strong>without uninstalling</strong> — that is what keeps your balance and your conversations.',
-      iphone: 'On iPhone, ZIRA is coming to the App Store.'
+      iphone: 'On iPhone, <a href="/app/">open ZIRA in Safari</a> — the App Store version is on its way.',
+      pied_prix: 'Pricing', pied_conditions: 'Terms', pied_remboursements: 'Refunds',
+      pied_confidentialite: 'Privacy', pied_contact: 'Contact'
     },
     fr: {
       titre: 'ZIRA pour Android',
@@ -134,7 +133,9 @@
       etape2: '<strong>Ouvre le fichier téléchargé.</strong> Android te demande d’autoriser ton navigateur à installer des apps : autorise-le, puis reviens en arrière.',
       etape3: '<strong>Si Play Protect affiche un avertissement,</strong> touche « Plus de détails », puis « Installer quand même ».',
       etape4: '<strong>Mises à jour :</strong> ZIRA te préviendra elle-même quand une nouvelle version sortira. Installe-la par-dessus l’ancienne, <strong>sans désinstaller</strong> : c’est ce qui garde ton solde et tes conversations.',
-      iphone: 'Sur iPhone, ZIRA arrive sur l’App Store.'
+      iphone: 'Sur iPhone, <a href="/app/">ouvre ZIRA dans Safari</a> : la version App Store arrive.',
+      pied_prix: 'Tarifs', pied_conditions: 'Conditions', pied_remboursements: 'Remboursements',
+      pied_confidentialite: 'Confidentialité', pied_contact: 'Contact'
     },
     es: {
       titre: 'ZIRA para Android',
@@ -145,7 +146,9 @@
       etape2: '<strong>Abre el archivo descargado.</strong> Android te pide permitir que tu navegador instale apps: permítelo y vuelve atrás.',
       etape3: '<strong>Si Play Protect muestra un aviso,</strong> toca «Más detalles» y luego «Instalar de todos modos».',
       etape4: '<strong>Actualizaciones:</strong> ZIRA te avisará cuando salga una nueva versión. Instálala encima de la anterior, <strong>sin desinstalar</strong>: así conservas tu saldo y tus conversaciones.',
-      iphone: 'En iPhone, ZIRA llega a la App Store.'
+      iphone: 'En iPhone, <a href="/app/">abre ZIRA en Safari</a>: la versión de la App Store está en camino.',
+      pied_prix: 'Precios', pied_conditions: 'Condiciones', pied_remboursements: 'Reembolsos',
+      pied_confidentialite: 'Privacidad', pied_contact: 'Contacto'
     },
     it: {
       titre: 'ZIRA per Android',
@@ -156,7 +159,9 @@
       etape2: '<strong>Apri il file scaricato.</strong> Android ti chiede di consentire al browser di installare app: consenti, poi torna indietro.',
       etape3: '<strong>Se Play Protect mostra un avviso,</strong> tocca «Altri dettagli», poi «Installa comunque».',
       etape4: '<strong>Aggiornamenti:</strong> ZIRA ti avviserà quando uscirà una nuova versione. Installala sopra quella vecchia, <strong>senza disinstallare</strong>: così conservi il saldo e le conversazioni.',
-      iphone: 'Su iPhone, ZIRA arriva sull’App Store.'
+      iphone: 'Su iPhone, <a href="/app/">apri ZIRA in Safari</a>: la versione per l’App Store è in arrivo.',
+      pied_prix: 'Prezzi', pied_conditions: 'Termini', pied_remboursements: 'Rimborsi',
+      pied_confidentialite: 'Privacy', pied_contact: 'Contatti'
     },
     de: {
       titre: 'ZIRA für Android',
@@ -167,7 +172,9 @@
       etape2: '<strong>Öffne die heruntergeladene Datei.</strong> Android bittet dich, deinem Browser das Installieren von Apps zu erlauben: erlaube es und geh zurück.',
       etape3: '<strong>Wenn Play Protect eine Warnung zeigt,</strong> tippe auf „Weitere Details“ und dann auf „Trotzdem installieren“.',
       etape4: '<strong>Updates:</strong> ZIRA sagt dir selbst, wenn eine neue Version erscheint. Installiere sie über die alte, <strong>ohne zu deinstallieren</strong> – so bleiben dein Guthaben und deine Gespräche erhalten.',
-      iphone: 'Auf dem iPhone kommt ZIRA in den App Store.'
+      iphone: 'Auf dem iPhone <a href="/app/">öffne ZIRA in Safari</a> – die App-Store-Version ist unterwegs.',
+      pied_prix: 'Preise', pied_conditions: 'Bedingungen', pied_remboursements: 'Erstattungen',
+      pied_confidentialite: 'Datenschutz', pied_contact: 'Kontakt'
     },
     ar: {
       titre: 'ZIRA لأندرويد',
@@ -178,7 +185,9 @@
       etape2: '<strong>افتح الملف الذي حمّلته.</strong> سيطلب منك أندرويد السماح لمتصفحك بتثبيت التطبيقات: اسمح بذلك ثم ارجع.',
       etape3: '<strong>إذا ظهر تحذير من Play Protect،</strong> اضغط على «مزيد من التفاصيل» ثم «التثبيت على أي حال».',
       etape4: '<strong>التحديثات:</strong> ستخبرك ZIRA بنفسها عند صدور إصدار جديد. ثبّته فوق القديم <strong>دون إلغاء التثبيت</strong>: هكذا يبقى رصيدك ومحادثاتك.',
-      iphone: 'على الآيفون، ZIRA قادمة إلى App Store.'
+      iphone: 'على الآيفون، <a href="/app/">افتح ZIRA في Safari</a>، ونسخة App Store في الطريق.',
+      pied_prix: 'الأسعار', pied_conditions: 'الشروط', pied_remboursements: 'الاسترداد',
+      pied_confidentialite: 'الخصوصية', pied_contact: 'اتصل بنا'
     }
   };
   var DROITE_A_GAUCHE = { ar: true };
@@ -200,7 +209,8 @@
   document.title = T.titre;
 
   // Les textes sont les NÔTRES, écrits ci-dessus : innerHTML sert seulement
-  // à garder leurs <strong>. Rien de ce qui vient du réseau n'y passe.
+  // à garder leurs <strong> et leurs liens. Rien de ce qui vient du réseau
+  // n'y passe.
   Array.prototype.forEach.call(document.querySelectorAll('[data-t]'), function (n) {
     n.innerHTML = T[n.getAttribute('data-t')];
   });
