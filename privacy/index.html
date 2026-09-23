@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Privacy Policy — ZIRA</title>
+<meta name="description" content="What ZIRA does with your data, and what it never collects.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#070524">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  privacy/ — LA POLITIQUE DE CONFIDENTIALITÉ DU SITE (2026-09-23)
+
+  Reprend celle de Render (zira-ai/static/privacy.html, 7 septembre 2026)
+  et ajoute ce qui a changé depuis, chaque point vérifié dans le code le
+  2026-09-23 :
+  - Paddle encaisse sur tryzira.com : il reçoit l'e-mail et le pays de
+    l'acheteur, que l'owner voit dans son compte Paddle. Le webhook ne
+    garde que device_id, pack et « paddle_<txn_id> » (api.py).
+  - Le code de récupération EST l'identifiant d'appareil
+    (zira-v4-app/src/services/recuperation.js).
+  - Le genre, facultatif, fait partie du profil (onboarding/steps/NameStep.js).
+  - Sentry reçoit les erreurs de l'app (config/sentry.js : sendDefaultPii
+    false, URL nettoyées) et du serveur quand SENTRY_DSN est posée
+    (send_default_pii=False, mais le corps de la requête peut partir).
+  - La ville de naissance se cherche chez Nominatim (services/places.js),
+    les cartes viennent de Cloudinary (data/tarot.js), l'œuvre du jour du
+    serveur du musée qui la publie.
+  - Aucun jeton de notification ne part au serveur, aucun SDK d'analyse.
+
+  Deux copies plus anciennes existent encore : zira-ai/static/privacy.html
+  (Render) et le dépôt zira-privacy (18 mai 2026). Ni l'une ni l'autre ne
+  parle de Paddle.
+-->
+<style>
+  :root{
+    --deep:#070524;
+    --cyan:#00D4FF;
+    --gold:#D4AF37;
+    --offwhite:#F0F4FF;
+    --ink:rgba(240,244,255,.82);
+    --ink-soft:rgba(240,244,255,.55);
+    --line:rgba(240,244,255,.14);
+    --display:'Cormorant Garamond',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
+      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
+    padding:48px 20px 40px}
+  main,footer{max-width:680px;margin:0 auto}
+  .sigle{display:block;text-align:center;font-family:var(--display);font-size:22px;letter-spacing:.35em;
+    color:var(--offwhite);text-decoration:none;margin-bottom:40px;padding-inline-start:.35em}
+  h1{font-family:var(--display);font-weight:500;font-size:40px;line-height:1.15;color:var(--offwhite)}
+  .maj{font-size:13px;color:var(--ink-soft);margin:6px 0 32px}
+  .encadre{border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.05);border-radius:14px;
+    padding:16px 20px;margin-top:14px}
+  h2{font-family:var(--display);font-weight:500;font-size:26px;line-height:1.25;color:var(--offwhite);margin:40px 0 10px}
+  p,li{font-size:15.5px}
+  p+p,p+ul,ul+p{margin-top:12px}
+  ul{padding-inline-start:22px}
+  li+li{margin-top:6px}
+  strong{color:var(--offwhite);font-weight:500}
+  a{color:var(--cyan);text-underline-offset:3px}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;font-size:13px}
+  footer a{color:var(--ink-soft);text-decoration:none}
+  footer a:hover,footer a[aria-current="page"]{color:var(--offwhite)}
+</style>
+</head>
+<body>
+<main>
+  <a class="sigle" href="/">ZIRA</a>
+  <h1>Privacy Policy</h1>
+  <p class="maj">Last updated: September 23, 2026</p>
+
+  <p>This policy explains what happens to your data when you use ZIRA — the apps and the website tryzira.com. ZIRA is operated by <strong>Alhassan Laabad</strong>, based in Morocco, who is responsible for your data. Questions: <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a>.</p>
+  <div class="encadre">
+    <p><strong>In short:</strong> no account, no advertising, no trackers. Your profile and your conversations stay on your device. Our server uses them only while Zira writes her reply, and does not keep them.</p>
+  </div>
+
+  <h2>1. What we use, and why</h2>
+  <p><strong>An anonymous identifier.</strong> On first launch, the app creates a random identifier and stores it on your device — in your browser, for the web app. Our server uses it to keep your bubble balance, your free messages and your purchase history. It is not linked to your name, your email address or your Apple or Google account. It is also your recovery code: keep it private.</p>
+  <p><strong>Your profile, if you fill it in:</strong> first name, gender (optional), date, time and city of birth. It is stored on your device. With your consent — asked on the app’s first screen, before anything is sent — it is sent to our server and to our AI provider, OpenAI, to write your readings. Our server does not keep it once the reply is written.</p>
+  <p><strong>Your conversations.</strong> They are stored on your device only. Each message goes through our server to OpenAI while Zira’s reply is written; our server does not keep it. OpenAI does not use it to train its models, and handles it under its own policies.</p>
+  <p><strong>Your purchases.</strong></p>
+  <ul>
+    <li>On tryzira.com, Paddle.com, our reseller, takes the payment. Paddle collects what it needs for the payment and for taxes — such as your email address, payment details and country — under <a href="https://www.paddle.com/legal/privacy">its own privacy policy</a>. Paddle sends us the transaction number, the pack you bought and your app identifier, so that we can credit your bubbles. In our Paddle account, we can also see your order, including your email address and country; we use them only for support, refunds and our legal obligations. We never see your card number.</li>
+    <li>In the App Store, Apple takes the payment and sends us a transaction identifier.</li>
+    <li>We keep transaction numbers so that no purchase is credited twice, and for support.</li>
+  </ul>
+  <p><strong>Technical data.</strong> When your device connects to our server or to tryzira.com, our hosting providers receive its IP address and may keep it for a limited time in technical logs, to run and secure the service. When the app or the server runs into an error, a technical report is sent to Sentry, our error-monitoring service. It describes the error, the app version and the device model, without your IP address. A report from the server can include the content of the request that failed.</p>
+  <p><strong>Content loaded from other services.</strong> Some content comes from other servers, which then receive your device’s IP address: card images (Cloudinary), the artwork of the day (the museum or archive that publishes it) and the website’s fonts (Google Fonts). When you look for your birth city, what you type is sent to OpenStreetMap’s place search (Nominatim) to find it.</p>
+  <p><strong>The website.</strong> tryzira.com sets no cookies and uses no analytics or advertising trackers. The payment page opens Paddle’s payment window, which may use its own cookies.</p>
+
+  <h2>2. What we do not collect</h2>
+  <ul>
+    <li>No account and no password.</li>
+    <li>No location: your birth city is only what you type.</li>
+    <li>No access to your contacts, photos, microphone or camera.</li>
+    <li>No advertising, no advertising identifier, no third-party analytics.</li>
+  </ul>
+
+  <h2>3. Who receives data</h2>
+  <p>We do not sell your data, and we do not share it for advertising. Only these services receive some of it, each for one purpose:</p>
+  <ul>
+    <li><strong>OpenAI</strong> — writes Zira’s replies, from your messages and, with your consent, your profile.</li>
+    <li><strong>Paddle</strong> — takes payments on tryzira.com, as the seller of record.</li>
+    <li><strong>Apple</strong> — takes payments in the App Store.</li>
+    <li><strong>Render</strong> — hosts our server and our database.</li>
+    <li><strong>GitHub</strong> — hosts tryzira.com and the Android app download.</li>
+    <li><strong>Sentry</strong> — receives error reports.</li>
+    <li><strong>OpenStreetMap (Nominatim)</strong> — finds your birth city from what you type.</li>
+    <li><strong>Cloudinary, museums and archives, Google Fonts</strong> — serve images and fonts.</li>
+  </ul>
+  <p>Some of these services process data outside your country, notably in the United States.</p>
+
+  <h2>4. Legal bases</h2>
+  <ul>
+    <li>Running ZIRA and delivering what you bought: our contract with you.</li>
+    <li>Personalizing readings with your profile: your consent, which you can withdraw at any time by writing to us.</li>
+    <li>Error reports and technical logs: our legitimate interest in keeping ZIRA working and secure.</li>
+    <li>Purchase records: our legal and accounting obligations.</li>
+  </ul>
+
+  <h2>5. How long we keep data</h2>
+  <ul>
+    <li>Your identifier, balance and purchase history: as long as you use ZIRA. You can ask us to delete them at any time.</li>
+    <li>Purchase records that accounting law requires us to keep: for the period the law sets.</li>
+    <li>Your profile and conversations: on your device only, until you delete the app — or your browser’s data, for the web app.</li>
+  </ul>
+
+  <h2>6. Your rights</h2>
+  <p>You can ask to access, correct or delete your data, to receive a copy of it, or to object to its use. Write to <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a> with your recovery code, so that we know which data is yours. You can also complain to a data-protection authority: in Morocco, the CNDP; in the European Union, the authority of your country.</p>
+
+  <h2>7. Security</h2>
+  <p>All connections use HTTPS. Our database is encrypted at rest by our hosting provider.</p>
+
+  <h2>8. Children</h2>
+  <p>ZIRA is not intended for children under 13, or under 16 in some EU countries. If a child has used ZIRA without a parent’s permission, write to us and we will delete the data.</p>
+
+  <h2>9. Changes</h2>
+  <p>We may update this policy. The date at the top shows the current version; significant changes will be announced in the app or on this page.</p>
+
+  <h2>10. Contact</h2>
+  <p>Alhassan Laabad — <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a></p>
+</main>
+
+<footer>
+  <a href="/">ZIRA</a>
+  <a href="/#pricing">Pricing</a>
+  <a href="/terms/">Terms</a>
+  <a href="/refunds/">Refunds</a>
+  <a href="/privacy/" aria-current="page">Privacy</a>
+  <a href="mailto:zira.app.contact@gmail.com">Contact</a>
+</footer>
+</body>
+</html>

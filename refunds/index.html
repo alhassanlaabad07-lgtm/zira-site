@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Refund Policy — ZIRA</title>
+<meta name="description" content="When and how purchases made on tryzira.com are refunded.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#070524">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  refunds/ — LA POLITIQUE DE REMBOURSEMENT (2026-09-23)
+
+  Option A, choisie par l'owner le 2026-09-23 : un pack non entamé est
+  remboursé sous 14 jours ; un double paiement et des bulles jamais
+  créditées le sont toujours. Paddle examine lui-même les demandes pendant
+  14 jours (paddle.com/legal/refund-policy) : les deux règles vont dans le
+  même sens. S'y ajoute l'engagement déjà publié dans les anciennes
+  conditions : un remboursement au prorata si ZIRA ferme.
+
+  ⚠️ Un remboursement fait dans Paddle ne retire PAS les bulles : le webhook
+  de zira-ai n'écoute que transaction.completed. « Removed from your
+  balance » est donc un geste à faire à la main, après avoir vérifié le
+  solde. « Pas entamé » se lit dans l'historique : aucun débit de bulles
+  après l'achat.
+-->
+<style>
+  :root{
+    --deep:#070524;
+    --cyan:#00D4FF;
+    --gold:#D4AF37;
+    --offwhite:#F0F4FF;
+    --ink:rgba(240,244,255,.82);
+    --ink-soft:rgba(240,244,255,.55);
+    --line:rgba(240,244,255,.14);
+    --display:'Cormorant Garamond',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
+      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
+    padding:48px 20px 40px}
+  main,footer{max-width:680px;margin:0 auto}
+  .sigle{display:block;text-align:center;font-family:var(--display);font-size:22px;letter-spacing:.35em;
+    color:var(--offwhite);text-decoration:none;margin-bottom:40px;padding-inline-start:.35em}
+  h1{font-family:var(--display);font-weight:500;font-size:40px;line-height:1.15;color:var(--offwhite)}
+  .maj{font-size:13px;color:var(--ink-soft);margin:6px 0 32px}
+  .encadre{border:1px solid rgba(212,175,55,.35);background:rgba(212,175,55,.05);border-radius:14px;
+    padding:16px 20px;margin-top:14px}
+  h2{font-family:var(--display);font-weight:500;font-size:26px;line-height:1.25;color:var(--offwhite);margin:40px 0 10px}
+  p,li{font-size:15.5px}
+  p+p,p+ul,ul+p{margin-top:12px}
+  ul{padding-inline-start:22px}
+  li+li{margin-top:6px}
+  strong{color:var(--offwhite);font-weight:500}
+  a{color:var(--cyan);text-underline-offset:3px}
+  footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--line);
+    display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:center;font-size:13px}
+  footer a{color:var(--ink-soft);text-decoration:none}
+  footer a:hover,footer a[aria-current="page"]{color:var(--offwhite)}
+</style>
+</head>
+<body>
+<main>
+  <a class="sigle" href="/">ZIRA</a>
+  <h1>Refund Policy</h1>
+  <p class="maj">Last updated: September 23, 2026</p>
+
+  <div class="encadre">
+    <p><strong>Changed your mind?</strong> A pack you have not started using is refunded in full within 14 days of purchase.</p>
+    <p><strong>Charged twice, or bubbles that never arrived?</strong> Always refunded.</p>
+  </div>
+
+  <h2>Purchases on tryzira.com</h2>
+  <p>This covers every purchase made on tryzira.com, including those started from the Android app downloaded there. Payment is handled by Paddle.com, our reseller.</p>
+  <ul>
+    <li><strong>Unused pack, within 14 days:</strong> full refund, if you have not used any bubbles since you bought it.</li>
+    <li><strong>Duplicate payment:</strong> if you were charged twice for the same pack by mistake, the extra payment is refunded.</li>
+    <li><strong>Bubbles that never arrived:</strong> if you paid and the bubbles never reached your balance, we credit them or refund you — your choice.</li>
+    <li><strong>If ZIRA closes for good:</strong> the unused bubbles of packs bought in the 30 days before closing are refunded in proportion.</li>
+  </ul>
+  <p>Apart from these cases, a pack you have started using is not refundable, unless the law requires it.</p>
+
+  <h2>How to ask for a refund</h2>
+  <p>Write to <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a> with:</p>
+  <ul>
+    <li>the email address you used to pay;</li>
+    <li>the order number from your Paddle receipt, or the date and amount of the payment;</li>
+    <li>your recovery code, from the Profile screen of the app, so that we can check your balance.</li>
+  </ul>
+  <p>You can also contact Paddle directly at <a href="https://paddle.net">paddle.net</a>.</p>
+  <p>Refunds are paid by Paddle to the payment method you used. Depending on your bank, the money can take a few business days to appear. The bubbles of a refunded pack are removed from your balance.</p>
+
+  <h2>Purchases in the App Store</h2>
+  <p>Apple handles these payments, and only Apple can refund them. Ask for a refund at <a href="https://reportaproblem.apple.com">reportaproblem.apple.com</a>.</p>
+
+  <h2>Questions</h2>
+  <p>Write to us at <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a>. This policy is part of our <a href="/terms/">Terms of Service</a>.</p>
+</main>
+
+<footer>
+  <a href="/">ZIRA</a>
+  <a href="/#pricing">Pricing</a>
+  <a href="/terms/">Terms</a>
+  <a href="/refunds/" aria-current="page">Refunds</a>
+  <a href="/privacy/">Privacy</a>
+  <a href="mailto:zira.app.contact@gmail.com">Contact</a>
+</footer>
+</body>
+</html>

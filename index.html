@@ -155,6 +155,17 @@
     background:linear-gradient(120deg,var(--cyan),var(--royal));padding:9px 18px;border-radius:30px;display:inline-block;text-decoration:none;transition:transform .3s}
   .channel .dl:hover{transform:translateY(-2px)}
 
+  /* Les prix, exiges par la revue de domaine de Paddle avec terms/, refunds/
+     et privacy/. Les chiffres viennent de zira-ai/models.py (TOKEN_PACKS). */
+  .packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;margin-top:56px}
+  .pack{border:1px solid var(--line);border-radius:16px;padding:32px 28px;background:rgba(7,5,36,.4);text-align:center}
+  .pack.highlight{border-color:rgba(0,212,255,.4);box-shadow:0 0 40px rgba(0,212,255,.08)}
+  .pack .tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+  .pack h4{font-family:var(--display);font-size:1.5rem;color:var(--offwhite);margin:12px 0 4px;font-weight:500}
+  .pack .price{font-family:var(--display);font-size:2.6rem;line-height:1.1;color:var(--cyan)}
+  .fine{font-size:.86rem;color:var(--ink-soft);max-width:640px;margin-top:36px}
+  .fine a{color:var(--ink)}
+
   .closer{text-align:center}
   .closer .wrap{max-width:680px}
   .closer h2{margin-bottom:30px}
@@ -271,6 +282,20 @@
   </div>
 </section>
 
+<section id="pricing">
+  <div class="wrap reveal">
+    <span class="kicker">Pricing</span>
+    <h2>Three messages free. <em>Then, at your pace.</em></h2>
+    <p class="lead">Your first 3 messages with Zira are free. After that, her replies use bubbles from your balance — one for each bubble she writes. A pack is bought once: no subscription, nothing renews.</p>
+    <div class="packs">
+      <div class="pack"><span class="tag">To begin</span><h4>150 bubbles</h4><p class="price">€2.99</p></div>
+      <div class="pack"><span class="tag">To go further</span><h4>450 bubbles</h4><p class="price">€7.99</p></div>
+      <div class="pack highlight"><span class="tag">Best value</span><h4>1,250 bubbles</h4><p class="price">€17.99</p></div>
+    </div>
+    <p class="fine">Prices on tryzira.com and in the Android app downloaded from it, in euros, taxes included. Payment is handled by Paddle.com, our reseller; in the App Store, prices may differ. An unused pack is refunded within 14 days — see our <a href="/refunds/">Refund Policy</a> and <a href="/terms/">Terms of Service</a>.</p>
+  </div>
+</section>
+
 <section id="where">
   <div class="wrap reveal">
     <span class="kicker">Where to find her</span>
@@ -312,8 +337,11 @@
     <div class="foot-links">
       <a href="#story">The story</a>
       <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
       <a href="#where">Where to find her</a>
-      <a href="https://alhassanlaabad07-lgtm.github.io/zira-privacy/" target="_blank" rel="noopener">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/refunds/">Refunds</a>
+      <a href="/privacy/">Privacy</a>
       <a href="mailto:zira.app.contact@gmail.com">Contact</a>
     </div>
     <p class="copy">ZIRA — <span class="amz">ⵣⵉⵔⴰ</span> · moonlight · © 2026 Elmehdi Aghermaz · Meknès, Morocco</p>

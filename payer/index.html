@@ -79,6 +79,8 @@
     border:1px dashed rgba(0,212,255,.5);color:var(--cyan)}
   .test[hidden]{display:none}
   .test code{display:block;margin-top:6px;font-size:12px;color:var(--ink-soft);word-break:break-all;direction:ltr}
+  .legal{margin-top:44px;font-size:13px;color:var(--ink-soft)}
+  .legal a{color:var(--ink-soft);text-underline-offset:3px}
 </style>
 </head>
 <body>
@@ -93,6 +95,16 @@
     <button id="reessayer" class="bouton" type="button" hidden></button>
   </div>
   <noscript><p>JavaScript is required to pay.</p></noscript>
+  <!-- Les pages légales. Elles sont en anglais comme le reste du site : seuls
+       leurs noms suivent la langue. Nouvel onglet, pour ne jamais perdre le
+       paiement en cours. C'est aussi ce que voit la revue de Paddle, qui ouvre
+       cette page (lien de paiement par défaut) sans pack ni appareil. -->
+  <p class="legal">
+    <a href="/" target="_blank" rel="noopener">tryzira.com</a> ·
+    <a id="lien-conditions" href="/terms/" target="_blank" rel="noopener">Terms</a> ·
+    <a id="lien-remboursements" href="/refunds/" target="_blank" rel="noopener">Refunds</a> ·
+    <a id="lien-confidentialite" href="/privacy/" target="_blank" rel="noopener">Privacy</a>
+  </p>
 </main>
 
 <script>
@@ -122,7 +134,8 @@
       lent_titre: 'Payment processing', lent_texte: 'Thank you! Your payment is being confirmed — your tokens will appear in a moment.',
       erreur_titre: "Something didn't go through", erreur_texte: 'Nothing was taken — try again.',
       retour: 'Back to ZIRA', reessayer: 'Try again',
-      test: 'Test mode: no real payment.'
+      test: 'Test mode: no real payment.',
+      conditions: 'Terms', remboursements: 'Refunds', confidentialite: 'Privacy'
     },
     fr: {
       un_instant: 'Un instant…', ouverture: "J'ouvre le paiement.",
@@ -136,7 +149,8 @@
       lent_titre: 'Paiement en cours', lent_texte: 'Merci ! Ton paiement est en cours de validation — tes jetons arrivent dans un instant.',
       erreur_titre: "Quelque chose n'est pas passé", erreur_texte: "Rien n'a été pris — réessaye.",
       retour: 'Revenir dans ZIRA', reessayer: 'Réessayer',
-      test: 'Mode test : aucun vrai paiement.'
+      test: 'Mode test : aucun vrai paiement.',
+      conditions: 'Conditions', remboursements: 'Remboursements', confidentialite: 'Confidentialité'
     },
     es: {
       un_instant: 'Un momento…', ouverture: 'Abriendo el pago.',
@@ -150,7 +164,8 @@
       lent_titre: 'Pago en curso', lent_texte: '¡Gracias! Tu pago se está confirmando — tus fichas llegarán en un momento.',
       erreur_titre: 'Algo no ha pasado', erreur_texte: 'No se ha cobrado nada — reintenta.',
       retour: 'Volver a ZIRA', reessayer: 'Reintentar',
-      test: 'Modo de prueba: ningún pago real.'
+      test: 'Modo de prueba: ningún pago real.',
+      conditions: 'Condiciones', remboursements: 'Reembolsos', confidentialite: 'Privacidad'
     },
     it: {
       un_instant: 'Un momento…', ouverture: 'Apro il pagamento.',
@@ -164,7 +179,8 @@
       lent_titre: 'Pagamento in corso', lent_texte: 'Grazie! Il tuo pagamento è in fase di conferma — i tuoi gettoni arriveranno tra un istante.',
       erreur_titre: 'Qualcosa non è passato', erreur_texte: 'Non è stato addebitato nulla — riprova.',
       retour: 'Torna a ZIRA', reessayer: 'Riprova',
-      test: 'Modalità test: nessun pagamento reale.'
+      test: 'Modalità test: nessun pagamento reale.',
+      conditions: 'Termini', remboursements: 'Rimborsi', confidentialite: 'Privacy'
     },
     de: {
       un_instant: 'Einen Moment…', ouverture: 'Die Zahlung wird geöffnet.',
@@ -178,7 +194,8 @@
       lent_titre: 'Zahlung wird verarbeitet', lent_texte: 'Danke! Deine Zahlung wird bestätigt — deine Token erscheinen gleich.',
       erreur_titre: 'Etwas ist nicht durchgegangen', erreur_texte: 'Es wurde nichts abgebucht — versuche es erneut.',
       retour: 'Zurück zu ZIRA', reessayer: 'Erneut versuchen',
-      test: 'Testmodus: keine echte Zahlung.'
+      test: 'Testmodus: keine echte Zahlung.',
+      conditions: 'Bedingungen', remboursements: 'Erstattungen', confidentialite: 'Datenschutz'
     },
     ar: {
       un_instant: 'لحظة…', ouverture: 'أفتح صفحة الدفع.',
@@ -192,7 +209,8 @@
       lent_titre: 'الدفع في الطريق', lent_texte: 'شكراً ! يتم تأكيد دفعك — ستصل نقاطك خلال لحظات.',
       erreur_titre: 'شيء ما لم يمرّ', erreur_texte: 'لم تُخصم منك أي مبالغ — أعد المحاولة.',
       retour: 'العودة إلى ZIRA', reessayer: 'أعد المحاولة',
-      test: 'وضع التجربة: لا يوجد دفع حقيقي.'
+      test: 'وضع التجربة: لا يوجد دفع حقيقي.',
+      conditions: 'الشروط', remboursements: 'الاسترداد', confidentialite: 'الخصوصية'
     },
     ary: {
       un_instant: 'شوية…', ouverture: 'كنحلّ الخلاص.',
@@ -206,7 +224,11 @@
       lent_titre: 'الخلاص فالطريق', lent_texte: 'شكرا ! الخلاص ديالك كيتأكّد — الجيطونات ديالك غادي يجيو فشي لحظة.',
       erreur_titre: 'شي حاجة ما دازتش', erreur_texte: 'ما تخلّصتي والو — عاود.',
       retour: 'رجع لـ ZIRA', reessayer: 'عاود',
-      test: 'تجربة: ماكاين حتى خلاص حقيقي.'
+      test: 'تجربة: ماكاين حتى خلاص حقيقي.',
+      // Les noms de pages juridiques restent en arabe standard : c'est ainsi
+      // qu'on les lit au Maroc. La darija latine (dar) les lit en français,
+      // comme la fenêtre de Paddle (LOCALE_PADDLE).
+      conditions: 'الشروط', remboursements: 'الاسترداد', confidentialite: 'الخصوصية'
     },
     dar: {
       un_instant: 'Chwiya…', ouverture: 'Kan7ell lkhlas.',
@@ -220,7 +242,8 @@
       lent_titre: 'Lkhlas f tri9', lent_texte: 'Choukran! Lkhlas dyalek kayt2akkad — jetons dyalek ghadi yjiw f chi lehda.',
       erreur_titre: 'Chi 7aja ma daztch', erreur_texte: 'Ma tkhellsa walou — 3awd.',
       retour: 'Rja3 l ZIRA', reessayer: '3awd',
-      test: 'Test: ma kayn 7ta khlas b sse7.'
+      test: 'Test: ma kayn 7ta khlas b sse7.',
+      conditions: 'Conditions', remboursements: 'Remboursements', confidentialite: 'Confidentialité'
     }
   };
 
@@ -263,6 +286,9 @@
   };
   el.retour.textContent = T.retour;
   el.reessayer.textContent = T.reessayer;
+  document.getElementById('lien-conditions').textContent = T.conditions;
+  document.getElementById('lien-remboursements').textContent = T.remboursements;
+  document.getElementById('lien-confidentialite').textContent = T.confidentialite;
 
   // ─── Les états de la page ─────────────────────────────────────────────
   // [titre, texte, roue, retour (null = caché), réessayer]
