@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>ZIRA for Android</title>
+<meta name="description" content="Download ZIRA for Android directly from tryzira.com.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#070524">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  android/ — LA PAGE DE TÉLÉCHARGEMENT DE L'APK (2026-09-22)
+
+  C'est aussi la page où mène le bouton « Mettre à jour » de la fenêtre
+  « une nouvelle ZIRA est là » : sur Render, APP_URL_ANDROID vaut
+  https://tryzira.com/android/.
+
+  Le bouton pointe vers la DERNIÈRE Release GitHub de ce dépôt :
+
+    https://github.com/alhassanlaabad07-lgtm/zira-site/releases/latest/download/zira-android.apk
+
+  Cette adresse ne change jamais : publier une nouvelle version, c'est créer
+  une nouvelle Release avec un fichier nommé EXACTEMENT « zira-android.apk ».
+  Le site n'a pas à être republié. GitHub refuse les fichiers de plus de
+  100 Mo dans un dépôt ; une Release en accepte 2 Go. L'APK n'entre donc
+  jamais dans le dépôt lui-même (.gitignore l'exclut).
+
+  ⚠️ POURQUOI « zira-android.apk » ET PAS « zira.apk » (2026-09-23). La
+  Release v1.0.0 de mai porte un « zira.apk » : l'ANCIENNE app. Tant qu'aucune
+  Release plus récente n'existe, « latest » désigne celle-là — un bouton vers
+  « latest/download/zira.apk » servirait donc l'ancienne app. Avec un nom
+  neuf, ce fichier ne peut plus jamais sortir par cette page.
+
+  Tant que la dernière Release ne contient pas « zira-android.apk », la page
+  le voit (API GitHub) et annonce « bientôt » au lieu d'un lien mort. Si
+  l'API ne répond pas (60 appels par heure et par adresse IP), le bouton
+  reste : au pire il mène à une page GitHub introuvable, jamais à l'ancienne
+  app.
+-->
+<style>
+  :root{
+    --deep:#070524;
+    --cyan:#00D4FF;
+    --offwhite:#F0F4FF;
+    --ink:rgba(240,244,255,.82);
+    --ink-soft:rgba(240,244,255,.55);
+    --line:rgba(240,244,255,.14);
+    --display:'Cormorant Garamond',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
+      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
+    padding:48px 20px 64px}
+  main{max-width:460px;margin:0 auto}
+  .sigle{display:block;text-align:center;font-family:var(--display);font-size:22px;letter-spacing:.35em;
+    color:var(--offwhite);text-decoration:none;margin-bottom:40px;padding-inline-start:.35em}
+  h1{font-family:var(--display);font-weight:500;font-size:38px;line-height:1.15;color:var(--offwhite);
+    text-align:center;margin-bottom:12px}
+  .chapeau{text-align:center;color:var(--ink-soft);margin-bottom:32px}
+  .telecharger{display:block;text-align:center;padding:17px 20px;border-radius:14px;
+    font:500 17px var(--body);text-decoration:none;color:var(--offwhite);
+    border:1px solid rgba(0,212,255,.55);background:rgba(20,71,165,.4)}
+  .telecharger.bientot{border-style:dashed;background:transparent;color:var(--ink-soft)}
+  .meta{text-align:center;font-size:13px;color:var(--ink-soft);margin-top:10px;min-height:1.6em;direction:ltr}
+  ol{list-style:none;counter-reset:etape;margin-top:44px;display:flex;flex-direction:column;gap:20px}
+  li{counter-increment:etape;position:relative;padding-inline-start:44px}
+  li::before{content:counter(etape);position:absolute;inset-inline-start:0;top:0;width:30px;height:30px;
+    border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-size:14px;color:var(--cyan)}
+  li strong{color:var(--offwhite);font-weight:500}
+  .iphone{margin-top:44px;padding-top:24px;border-top:1px solid var(--line);text-align:center;
+    font-size:14px;color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<main>
+  <a class="sigle" href="/">ZIRA</a>
+  <h1 data-t="titre">ZIRA for Android</h1>
+  <p class="chapeau" data-t="chapeau"></p>
+
+  <a class="telecharger" id="telecharger" data-t="bouton"
+     href="https://github.com/alhassanlaabad07-lgtm/zira-site/releases/latest/download/zira-android.apk"></a>
+  <p class="meta" id="meta"></p>
+
+  <ol>
+    <li data-t="etape1"></li>
+    <li data-t="etape2"></li>
+    <li data-t="etape3"></li>
+    <li data-t="etape4"></li>
+  </ol>
+
+  <p class="iphone" data-t="iphone"></p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  // Les étapes décrivent ce qu'Android affiche vraiment en installant un APK
+  // hors store : l'autorisation de la source (le navigateur), puis parfois
+  // l'avertissement de Play Protect pour une app qu'il ne connaît pas.
+  //
+  // ⚠️ L'étape 4 est la plus importante. Le solde est attaché à un
+  // identifiant tiré au hasard et rangé DANS l'app (voir deviceId.js) :
+  // désinstaller efface cet identifiant, et avec lui les jetons achetés.
+  // Mettre à jour PAR-DESSUS garde tout.
+  var TEXTES = {
+    en: {
+      titre: 'ZIRA for Android',
+      chapeau: 'Download ZIRA straight from us — no store in between.',
+      bouton: 'Download ZIRA',
+      meta: 'Version {v} · {mo} MB',
+      etape1: '<strong>Tap “Download ZIRA”.</strong> The file is large: Wi-Fi is best.',
+      etape2: '<strong>Open the downloaded file.</strong> Android asks you to allow your browser to install apps: allow it, then go back.',
+      etape3: '<strong>If Play Protect shows a warning,</strong> tap “More details”, then “Install anyway”.',
+      etape4: '<strong>Updates:</strong> ZIRA will tell you herself when a new version is out. Install it over the old one, <strong>without uninstalling</strong> — that is what keeps your balance and your conversations.',
+      iphone: 'On iPhone, ZIRA is coming to the App Store.'
+    },
+    fr: {
+      titre: 'ZIRA pour Android',
+      chapeau: 'Télécharge ZIRA directement chez nous, sans passer par un store.',
+      bouton: 'Télécharger ZIRA',
+      meta: 'Version {v} · {mo} Mo',
+      etape1: '<strong>Touche « Télécharger ZIRA ».</strong> Le fichier est lourd : le Wi-Fi est préférable.',
+      etape2: '<strong>Ouvre le fichier téléchargé.</strong> Android te demande d’autoriser ton navigateur à installer des apps : autorise-le, puis reviens en arrière.',
+      etape3: '<strong>Si Play Protect affiche un avertissement,</strong> touche « Plus de détails », puis « Installer quand même ».',
+      etape4: '<strong>Mises à jour :</strong> ZIRA te préviendra elle-même quand une nouvelle version sortira. Installe-la par-dessus l’ancienne, <strong>sans désinstaller</strong> : c’est ce qui garde ton solde et tes conversations.',
+      iphone: 'Sur iPhone, ZIRA arrive sur l’App Store.'
+    },
+    es: {
+      titre: 'ZIRA para Android',
+      chapeau: 'Descarga ZIRA directamente de nosotros, sin pasar por una tienda.',
+      bouton: 'Descargar ZIRA',
+      meta: 'Versión {v} · {mo} MB',
+      etape1: '<strong>Toca «Descargar ZIRA».</strong> El archivo es pesado: mejor con wifi.',
+      etape2: '<strong>Abre el archivo descargado.</strong> Android te pide permitir que tu navegador instale apps: permítelo y vuelve atrás.',
+      etape3: '<strong>Si Play Protect muestra un aviso,</strong> toca «Más detalles» y luego «Instalar de todos modos».',
+      etape4: '<strong>Actualizaciones:</strong> ZIRA te avisará cuando salga una nueva versión. Instálala encima de la anterior, <strong>sin desinstalar</strong>: así conservas tu saldo y tus conversaciones.',
+      iphone: 'En iPhone, ZIRA llega a la App Store.'
+    },
+    it: {
+      titre: 'ZIRA per Android',
+      chapeau: 'Scarica ZIRA direttamente da noi, senza passare da uno store.',
+      bouton: 'Scarica ZIRA',
+      meta: 'Versione {v} · {mo} MB',
+      etape1: '<strong>Tocca «Scarica ZIRA».</strong> Il file è pesante: meglio con il Wi-Fi.',
+      etape2: '<strong>Apri il file scaricato.</strong> Android ti chiede di consentire al browser di installare app: consenti, poi torna indietro.',
+      etape3: '<strong>Se Play Protect mostra un avviso,</strong> tocca «Altri dettagli», poi «Installa comunque».',
+      etape4: '<strong>Aggiornamenti:</strong> ZIRA ti avviserà quando uscirà una nuova versione. Installala sopra quella vecchia, <strong>senza disinstallare</strong>: così conservi il saldo e le conversazioni.',
+      iphone: 'Su iPhone, ZIRA arriva sull’App Store.'
+    },
+    de: {
+      titre: 'ZIRA für Android',
+      chapeau: 'Lade ZIRA direkt bei uns herunter, ohne Store dazwischen.',
+      bouton: 'ZIRA herunterladen',
+      meta: 'Version {v} · {mo} MB',
+      etape1: '<strong>Tippe auf „ZIRA herunterladen“.</strong> Die Datei ist groß: am besten im WLAN.',
+      etape2: '<strong>Öffne die heruntergeladene Datei.</strong> Android bittet dich, deinem Browser das Installieren von Apps zu erlauben: erlaube es und geh zurück.',
+      etape3: '<strong>Wenn Play Protect eine Warnung zeigt,</strong> tippe auf „Weitere Details“ und dann auf „Trotzdem installieren“.',
+      etape4: '<strong>Updates:</strong> ZIRA sagt dir selbst, wenn eine neue Version erscheint. Installiere sie über die alte, <strong>ohne zu deinstallieren</strong> – so bleiben dein Guthaben und deine Gespräche erhalten.',
+      iphone: 'Auf dem iPhone kommt ZIRA in den App Store.'
+    },
+    ar: {
+      titre: 'ZIRA لأندرويد',
+      chapeau: 'حمّل ZIRA مباشرةً منّا، دون المرور بأي متجر.',
+      bouton: 'تحميل ZIRA',
+      meta: 'الإصدار {v} · {mo} ميغابايت',
+      etape1: '<strong>اضغط على «تحميل ZIRA».</strong> الملف كبير: يُفضَّل استعمال الواي فاي.',
+      etape2: '<strong>افتح الملف الذي حمّلته.</strong> سيطلب منك أندرويد السماح لمتصفحك بتثبيت التطبيقات: اسمح بذلك ثم ارجع.',
+      etape3: '<strong>إذا ظهر تحذير من Play Protect،</strong> اضغط على «مزيد من التفاصيل» ثم «التثبيت على أي حال».',
+      etape4: '<strong>التحديثات:</strong> ستخبرك ZIRA بنفسها عند صدور إصدار جديد. ثبّته فوق القديم <strong>دون إلغاء التثبيت</strong>: هكذا يبقى رصيدك ومحادثاتك.',
+      iphone: 'على الآيفون، ZIRA قادمة إلى App Store.'
+    }
+  };
+  var DROITE_A_GAUCHE = { ar: true };
+
+  function choisirLangue() {
+    var m = /(?:^|[?#&])langue=([a-z]{2,3})/.exec(location.search + location.hash);
+    if (m && TEXTES[m[1]]) return m[1];
+    // La darija de l'app arrive ici en arabe : c'est l'écriture qu'elle lit.
+    if (m && m[1] === 'ary') return 'ar';
+    if (m && m[1] === 'dar') return 'fr';
+    var nav = String(navigator.language || '').toLowerCase().split('-')[0];
+    return TEXTES[nav] ? nav : 'en';
+  }
+
+  var langue = choisirLangue();
+  var T = TEXTES[langue];
+  document.documentElement.lang = langue;
+  document.documentElement.dir = DROITE_A_GAUCHE[langue] ? 'rtl' : 'ltr';
+  document.title = T.titre;
+
+  // Les textes sont les NÔTRES, écrits ci-dessus : innerHTML sert seulement
+  // à garder leurs <strong>. Rien de ce qui vient du réseau n'y passe.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-t]'), function (n) {
+    n.innerHTML = T[n.getAttribute('data-t')];
+  });
+
+  // « Bientôt » : la dernière Release ne contient pas encore l'APK. Le bouton
+  // devient un simple texte, sans lien.
+  var BIENTOT = {
+    en: 'Coming very soon',
+    fr: 'Très bientôt',
+    es: 'Muy pronto',
+    it: 'Molto presto',
+    de: 'Schon sehr bald',
+    ar: 'قريباً جداً'
+  };
+
+  // Version et taille de la dernière Release, pour savoir ce qu'on télécharge.
+  // Sans réponse de GitHub, la ligne reste vide et le bouton marche quand même.
+  fetch('https://api.github.com/repos/alhassanlaabad07-lgtm/zira-site/releases/latest')
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !d.assets) return;
+      var apk = d.assets.filter(function (a) { return a && a.name === 'zira-android.apk'; })[0];
+      if (!apk) {
+        // GitHub a répondu, et l'APK n'y est pas : on ne propose pas un lien
+        // qui mènerait à une page introuvable.
+        var bouton = document.getElementById('telecharger');
+        var attente = document.createElement('p');
+        attente.className = 'telecharger bientot';
+        attente.textContent = BIENTOT[langue] || BIENTOT.en;
+        bouton.parentNode.replaceChild(attente, bouton);
+        return;
+      }
+      var version = String(d.tag_name || '').replace(/^v/, '');
+      var mo = Math.round(Number(apk.size) / 1048576);
+      if (!version || !isFinite(mo) || mo <= 0) return;
+      // textContent : la version vient du réseau.
+      document.getElementById('meta').textContent =
+        T.meta.replace('{v}', version).replace('{mo}', String(mo));
+    })
+    .catch(function () { /* la ligne reste vide */ });
+})();
+</script>
+</body>
+</html>

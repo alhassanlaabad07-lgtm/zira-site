@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<!-- Page fonctionnelle, ouverte par l'app : rien à indexer. -->
+<meta name="robots" content="noindex, nofollow">
+<title>ZIRA</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" sizes="48x48" type="image/png">
+<meta name="theme-color" content="#070524">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<!--
+  payer/ — LA PAGE DE PAIEMENT DE L'APK ANDROID (2026-09-22)
+
+  Ouverte par l'app ZIRA téléchargée sur tryzira.com, dans un onglet Chrome,
+  quand la personne choisit un pack. Voir zira-v4-app/src/services/paiementSite.js.
+
+    https://tryzira.com/payer/#pack=popular&appareil=<id>&langue=fr
+
+  Tout passe dans le FRAGMENT (#) : il ne quitte jamais le téléphone, ni vers
+  GitHub Pages, ni dans l'en-tête Referer vers Paddle.
+
+  La page :
+    1. demande au serveur le jeton PUBLIC Paddle et les prix
+       (GET /billing/paddle/config — rien n'est gravé ici) ;
+    2. relève le solde de l'appareil ;
+    3. ouvre le paiement Paddle avec customData.device_id ;
+    4. après paiement, relit le solde jusqu'à le voir monter — c'est le
+       webhook SIGNÉ qui crédite, `checkout.completed` ne prouve rien ;
+    5. rend la main à l'app : zira4://paiement?etat=ok (ou etat=annule).
+
+  ⚠️ Le retour automatique vers l'app peut être refusé par Chrome sans geste
+  de la personne. Le bouton « Revenir dans ZIRA » est donc toujours là.
+
+  ⚠️ Tant que Render porte un jeton de SANDBOX, un bandeau « mode test »
+  s'affiche avec l'identifiant de l'appareil : c'est lui qu'on inscrit dans
+  PADDLE_APPAREILS_TEST pour que le paiement d'essai soit crédité. Aucun
+  autre appareil ne l'est (voir _paddle_appareil_autorise dans zira-ai).
+-->
+<style>
+  :root{
+    --deep:#070524;
+    --royal:#1447A5;
+    --cyan:#00D4FF;
+    --offwhite:#F0F4FF;
+    --ink:rgba(240,244,255,.82);
+    --ink-soft:rgba(240,244,255,.55);
+    --line:rgba(240,244,255,.14);
+    --display:'Cormorant Garamond',Georgia,serif;
+    --body:'Inter',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;font-family:var(--body);color:var(--ink);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgba(20,71,165,.55), transparent 60%),
+      linear-gradient(180deg, var(--deep), #050318 60%, #04020f);
+    display:flex;align-items:center;justify-content:center;padding:32px 20px}
+  main{width:100%;max-width:420px;text-align:center}
+  .sigle{font-family:var(--display);font-size:22px;letter-spacing:.35em;color:var(--offwhite);
+    margin-bottom:36px;padding-inline-start:.35em}
+  h1{font-family:var(--display);font-weight:500;font-size:34px;line-height:1.2;color:var(--offwhite);margin-bottom:14px}
+  p{font-size:16px}
+  .boutons{display:flex;flex-direction:column;gap:12px;margin-top:32px}
+  .bouton{display:block;width:100%;padding:15px 20px;border-radius:14px;font:500 16px var(--body);
+    text-decoration:none;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--ink)}
+  .bouton.fort{border-color:rgba(0,212,255,.55);background:rgba(20,71,165,.35);color:var(--offwhite)}
+  .bouton[hidden]{display:none}
+  .roue{width:34px;height:34px;margin:0 auto 26px;border-radius:50%;
+    border:2px solid var(--line);border-top-color:var(--cyan);animation:tour 1s linear infinite}
+  .roue[hidden]{display:none}
+  @keyframes tour{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion: reduce){.roue{animation-duration:3s}}
+  .test{margin-bottom:28px;padding:12px 14px;border-radius:12px;font-size:13px;
+    border:1px dashed rgba(0,212,255,.5);color:var(--cyan)}
+  .test[hidden]{display:none}
+  .test code{display:block;margin-top:6px;font-size:12px;color:var(--ink-soft);word-break:break-all;direction:ltr}
+</style>
+</head>
+<body>
+<main>
+  <div class="sigle">ZIRA</div>
+  <div id="test" class="test" hidden><span id="test-texte"></span><code id="test-appareil"></code></div>
+  <div id="roue" class="roue" aria-hidden="true"></div>
+  <h1 id="titre" aria-live="polite">…</h1>
+  <p id="texte"></p>
+  <div class="boutons">
+    <a id="retour" class="bouton fort" href="zira4://paiement?etat=annule" hidden></a>
+    <button id="reessayer" class="bouton" type="button" hidden></button>
+  </div>
+  <noscript><p>JavaScript is required to pay.</p></noscript>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var API = 'https://zira-9s1v.onrender.com';
+  var PADDLE_JS = 'https://cdn.paddle.com/paddle/v2/paddle.js';
+  var RETOUR = 'zira4://paiement';
+
+  // Mesuré le 2026-09-22 : le crédit arrive 2 à 3 s après le paiement.
+  var ATTENTE_CREDIT_MS = 90000;
+  var PAS_MS = 2000;
+
+  // Les langues de l'app. La darija en lettres arabes (ary) et latines (dar)
+  // n'existe pas chez Paddle : sa fenêtre parlera arabe ou français.
+  var TEXTES = {
+    en: {
+      un_instant: 'One moment…', ouverture: 'Opening the payment.',
+      lien_titre: 'Open ZIRA first', lien_texte: 'This page opens when you choose a pack in the ZIRA app.',
+      ferme_titre: 'Not open yet', ferme_texte: "Payment isn't open here yet. Try again in a moment.",
+      bloque_titre: 'Payment blocked', bloque_texte: 'Your browser blocked the payment window. Turn the blocker off on this page, then try again.',
+      paiement: 'The payment window is open.',
+      annule_titre: 'Payment cancelled', annule_texte: 'Nothing was taken.',
+      attente_titre: 'Payment accepted', attente_texte: 'Waiting for your account to be credited…',
+      credite_titre: "It's done", credite_texte: '{n} tokens were added to your account. You can go back to ZIRA.',
+      lent_titre: 'Payment processing', lent_texte: 'Thank you! Your payment is being confirmed — your tokens will appear in a moment.',
+      erreur_titre: "Something didn't go through", erreur_texte: 'Nothing was taken — try again.',
+      retour: 'Back to ZIRA', reessayer: 'Try again',
+      test: 'Test mode: no real payment.'
+    },
+    fr: {
+      un_instant: 'Un instant…', ouverture: "J'ouvre le paiement.",
+      lien_titre: "Ouvre ZIRA d'abord", lien_texte: "Cette page s'ouvre quand tu choisis un pack dans l'app ZIRA.",
+      ferme_titre: 'Pas encore ouvert', ferme_texte: "Le paiement n'est pas encore ouvert ici. Réessaye dans un moment.",
+      bloque_titre: 'Paiement bloqué', bloque_texte: 'Ton navigateur a bloqué la fenêtre de paiement. Désactive le bloqueur sur cette page, puis réessaye.',
+      paiement: 'La fenêtre de paiement est ouverte.',
+      annule_titre: 'Paiement annulé', annule_texte: "Rien n'a été pris.",
+      attente_titre: 'Paiement accepté', attente_texte: "J'attends que ton compte soit crédité…",
+      credite_titre: "C'est fait", credite_texte: '{n} tokens ont été ajoutés à ton compte. Tu peux revenir dans ZIRA.',
+      lent_titre: 'Paiement en cours', lent_texte: 'Merci ! Ton paiement est en cours de validation — tes jetons arrivent dans un instant.',
+      erreur_titre: "Quelque chose n'est pas passé", erreur_texte: "Rien n'a été pris — réessaye.",
+      retour: 'Revenir dans ZIRA', reessayer: 'Réessayer',
+      test: 'Mode test : aucun vrai paiement.'
+    },
+    es: {
+      un_instant: 'Un momento…', ouverture: 'Abriendo el pago.',
+      lien_titre: 'Abre ZIRA primero', lien_texte: 'Esta página se abre cuando eliges un pack en la app ZIRA.',
+      ferme_titre: 'Aún no está abierto', ferme_texte: 'El pago todavía no está disponible aquí. Inténtalo dentro de un momento.',
+      bloque_titre: 'Pago bloqueado', bloque_texte: 'Tu navegador bloqueó la ventana de pago. Desactiva el bloqueador en esta página y vuelve a intentarlo.',
+      paiement: 'La ventana de pago está abierta.',
+      annule_titre: 'Pago cancelado', annule_texte: 'No se ha cobrado nada.',
+      attente_titre: 'Pago aceptado', attente_texte: 'Esperando a que tu cuenta reciba el saldo…',
+      credite_titre: 'Hecho', credite_texte: 'Se añadieron {n} tokens a tu cuenta. Ya puedes volver a ZIRA.',
+      lent_titre: 'Pago en curso', lent_texte: '¡Gracias! Tu pago se está confirmando — tus fichas llegarán en un momento.',
+      erreur_titre: 'Algo no ha pasado', erreur_texte: 'No se ha cobrado nada — reintenta.',
+      retour: 'Volver a ZIRA', reessayer: 'Reintentar',
+      test: 'Modo de prueba: ningún pago real.'
+    },
+    it: {
+      un_instant: 'Un momento…', ouverture: 'Apro il pagamento.',
+      lien_titre: 'Apri prima ZIRA', lien_texte: "Questa pagina si apre quando scegli un pacchetto nell'app ZIRA.",
+      ferme_titre: 'Non ancora aperto', ferme_texte: 'Il pagamento non è ancora disponibile qui. Riprova tra un momento.',
+      bloque_titre: 'Pagamento bloccato', bloque_texte: 'Il tuo browser ha bloccato la finestra di pagamento. Disattiva il blocco su questa pagina, poi riprova.',
+      paiement: 'La finestra di pagamento è aperta.',
+      annule_titre: 'Pagamento annullato', annule_texte: 'Non è stato addebitato nulla.',
+      attente_titre: 'Pagamento accettato', attente_texte: 'Aspetto che il tuo conto venga accreditato…',
+      credite_titre: 'Fatto', credite_texte: '{n} token sono stati aggiunti al tuo conto. Puoi tornare su ZIRA.',
+      lent_titre: 'Pagamento in corso', lent_texte: 'Grazie! Il tuo pagamento è in fase di conferma — i tuoi gettoni arriveranno tra un istante.',
+      erreur_titre: 'Qualcosa non è passato', erreur_texte: 'Non è stato addebitato nulla — riprova.',
+      retour: 'Torna a ZIRA', reessayer: 'Riprova',
+      test: 'Modalità test: nessun pagamento reale.'
+    },
+    de: {
+      un_instant: 'Einen Moment…', ouverture: 'Die Zahlung wird geöffnet.',
+      lien_titre: 'Öffne zuerst ZIRA', lien_texte: 'Diese Seite öffnet sich, wenn du in der ZIRA-App ein Paket wählst.',
+      ferme_titre: 'Noch nicht geöffnet', ferme_texte: 'Die Zahlung ist hier noch nicht möglich. Versuch es gleich noch einmal.',
+      bloque_titre: 'Zahlung blockiert', bloque_texte: 'Dein Browser hat das Zahlungsfenster blockiert. Deaktiviere den Blocker auf dieser Seite und versuch es erneut.',
+      paiement: 'Das Zahlungsfenster ist geöffnet.',
+      annule_titre: 'Zahlung abgebrochen', annule_texte: 'Es wurde nichts abgebucht.',
+      attente_titre: 'Zahlung angenommen', attente_texte: 'Ich warte, bis dein Konto gutgeschrieben ist…',
+      credite_titre: 'Erledigt', credite_texte: '{n} Tokens wurden deinem Konto gutgeschrieben. Du kannst zu ZIRA zurückkehren.',
+      lent_titre: 'Zahlung wird verarbeitet', lent_texte: 'Danke! Deine Zahlung wird bestätigt — deine Token erscheinen gleich.',
+      erreur_titre: 'Etwas ist nicht durchgegangen', erreur_texte: 'Es wurde nichts abgebucht — versuche es erneut.',
+      retour: 'Zurück zu ZIRA', reessayer: 'Erneut versuchen',
+      test: 'Testmodus: keine echte Zahlung.'
+    },
+    ar: {
+      un_instant: 'لحظة…', ouverture: 'أفتح صفحة الدفع.',
+      lien_titre: 'افتح ZIRA أولاً', lien_texte: 'تُفتح هذه الصفحة عندما تختار باقة في تطبيق ZIRA.',
+      ferme_titre: 'لم يُفتح بعد', ferme_texte: 'الدفع غير متاح هنا بعد. أعد المحاولة بعد لحظات.',
+      bloque_titre: 'الدفع محظور', bloque_texte: 'متصفحك منع نافذة الدفع. عطّل المانع في هذه الصفحة ثم أعد المحاولة.',
+      paiement: 'نافذة الدفع مفتوحة.',
+      annule_titre: 'أُلغي الدفع', annule_texte: 'لم تُخصم منك أي مبالغ.',
+      attente_titre: 'تمّ قبول الدفع', attente_texte: 'أنتظر وصول الرصيد إلى حسابك…',
+      credite_titre: 'تمّ', credite_texte: 'أُضيفت {n} نقطة إلى حسابك. يمكنك العودة إلى ZIRA.',
+      lent_titre: 'الدفع في الطريق', lent_texte: 'شكراً ! يتم تأكيد دفعك — ستصل نقاطك خلال لحظات.',
+      erreur_titre: 'شيء ما لم يمرّ', erreur_texte: 'لم تُخصم منك أي مبالغ — أعد المحاولة.',
+      retour: 'العودة إلى ZIRA', reessayer: 'أعد المحاولة',
+      test: 'وضع التجربة: لا يوجد دفع حقيقي.'
+    },
+    ary: {
+      un_instant: 'شوية…', ouverture: 'كنحلّ الخلاص.',
+      lien_titre: 'حلّ ZIRA الأول', lien_texte: 'هاد الصفحة كتحلّ ملي كتختار باكاج فالتطبيق ديال ZIRA.',
+      ferme_titre: 'مازال ما تحلّش', ferme_texte: 'الخلاص مازال ما تحلّش هنا. عاود من بعد شوية.',
+      bloque_titre: 'الخلاص تبلوكا', bloque_texte: 'النافيݣاتور ديالك بلوكا نافذة الخلاص. طفّي البلوكور ف هاد الصفحة ومن بعد عاود.',
+      paiement: 'نافذة الخلاص محلولة.',
+      annule_titre: 'الخلاص تلغى', annule_texte: 'ما تخلّصتي والو.',
+      attente_titre: 'الخلاص تقبل', attente_texte: 'كنتسنّى الحساب ديالك يتشارجا…',
+      credite_titre: 'تسالات', credite_texte: 'تزادو ليك {n} ديال الجيطونات فالحساب. تقدر ترجع لـ ZIRA.',
+      lent_titre: 'الخلاص فالطريق', lent_texte: 'شكرا ! الخلاص ديالك كيتأكّد — الجيطونات ديالك غادي يجيو فشي لحظة.',
+      erreur_titre: 'شي حاجة ما دازتش', erreur_texte: 'ما تخلّصتي والو — عاود.',
+      retour: 'رجع لـ ZIRA', reessayer: 'عاود',
+      test: 'تجربة: ماكاين حتى خلاص حقيقي.'
+    },
+    dar: {
+      un_instant: 'Chwiya…', ouverture: 'Kan7ell lkhlas.',
+      lien_titre: '7ell ZIRA lewwel', lien_texte: "Had safha kat7ell mlli katkhtar pack f l'app ZIRA.",
+      ferme_titre: 'Mazal ma t7ellch', ferme_texte: 'Lkhlas mazal ma t7ellch hna. 3awd men be3d chwiya.',
+      bloque_titre: 'Lkhlas tbloka', bloque_texte: 'Lbrowser dyalek bloka nafida dyal lkhlas. Tfi lbloqueur f had safha o 3awd.',
+      paiement: 'Nafida dyal lkhlas m7loula.',
+      annule_titre: 'Lkhlas tlgha', annule_texte: 'Ma tkhellsa walou.',
+      attente_titre: 'Lkhlas t9bel', attente_texte: 'Kantsenna l7sab dyalek ytcharja…',
+      credite_titre: 'Tsala', credite_texte: 'Tzadou lik {n} tokens f l7sab. T9der trja3 l ZIRA.',
+      lent_titre: 'Lkhlas f tri9', lent_texte: 'Choukran! Lkhlas dyalek kayt2akkad — jetons dyalek ghadi yjiw f chi lehda.',
+      erreur_titre: 'Chi 7aja ma daztch', erreur_texte: 'Ma tkhellsa walou — 3awd.',
+      retour: 'Rja3 l ZIRA', reessayer: '3awd',
+      test: 'Test: ma kayn 7ta khlas b sse7.'
+    }
+  };
+
+  var LANG_HTML = { en: 'en', fr: 'fr', es: 'es', it: 'it', de: 'de', ar: 'ar', ary: 'ary', dar: 'ary-Latn' };
+  var DROITE_A_GAUCHE = { ar: true, ary: true };
+  var LOCALE_PADDLE = { en: 'en', fr: 'fr', es: 'es', it: 'it', de: 'de', ar: 'ar', ary: 'ar', dar: 'fr' };
+
+  // ─── Le fragment : pack, appareil, langue ─────────────────────────────
+  function lireFragment() {
+    var sortie = {};
+    (location.hash || '').replace(/^#/, '').split('&').forEach(function (morceau) {
+      var i = morceau.indexOf('=');
+      if (i <= 0) return;
+      try {
+        sortie[decodeURIComponent(morceau.slice(0, i))] = decodeURIComponent(morceau.slice(i + 1));
+      } catch (e) { /* morceau illisible : ignoré */ }
+    });
+    return sortie;
+  }
+
+  function choisirLangue(demandee) {
+    if (demandee && TEXTES[demandee]) return demandee;
+    var nav = String(navigator.language || '').toLowerCase().split('-')[0];
+    return TEXTES[nav] ? nav : 'en';
+  }
+
+  var params = lireFragment();
+  var langue = choisirLangue(params.langue);
+  var T = TEXTES[langue];
+  document.documentElement.lang = LANG_HTML[langue];
+  document.documentElement.dir = DROITE_A_GAUCHE[langue] ? 'rtl' : 'ltr';
+
+  var el = {
+    titre: document.getElementById('titre'),
+    texte: document.getElementById('texte'),
+    roue: document.getElementById('roue'),
+    retour: document.getElementById('retour'),
+    reessayer: document.getElementById('reessayer'),
+    test: document.getElementById('test')
+  };
+  el.retour.textContent = T.retour;
+  el.reessayer.textContent = T.reessayer;
+
+  // ─── Les états de la page ─────────────────────────────────────────────
+  // [titre, texte, roue, retour (null = caché), réessayer]
+  var ETATS = {
+    chargement: ['un_instant', 'ouverture', true, null, false],
+    lien:       ['lien_titre', 'lien_texte', false, 'annule', false],
+    ferme:      ['ferme_titre', 'ferme_texte', false, 'annule', false],
+    bloque:     ['bloque_titre', 'bloque_texte', false, 'annule', true],
+    paiement:   ['un_instant', 'paiement', true, null, false],
+    annule:     ['annule_titre', 'annule_texte', false, 'annule', true],
+    erreur:     ['erreur_titre', 'erreur_texte', false, 'annule', true],
+    attente:    ['attente_titre', 'attente_texte', true, 'ok', false],
+    credite:    ['credite_titre', 'credite_texte', false, 'ok', false],
+    lent:       ['lent_titre', 'lent_texte', false, 'ok', false]
+  };
+
+  var etatCourant = null;
+
+  // Tout texte passe par textContent : rien de ce qui vient du fragment ou
+  // du réseau n'est jamais interprété comme du HTML.
+  function montrer(nom, n) {
+    var e = ETATS[nom];
+    etatCourant = nom;
+    el.titre.textContent = T[e[0]];
+    el.texte.textContent = T[e[1]].replace('{n}', String(n || ''));
+    el.roue.hidden = !e[2];
+    el.retour.hidden = e[3] === null;
+    if (e[3]) el.retour.href = RETOUR + '?etat=' + e[3];
+    el.reessayer.hidden = !e[4];
+  }
+
+  // ─── Réseau ───────────────────────────────────────────────────────────
+  function lireJSON(url) {
+    var controle = typeof AbortController === 'function' ? new AbortController() : null;
+    var minuteur = setTimeout(function () { if (controle) controle.abort(); }, 10000);
+    return fetch(url, { signal: controle ? controle.signal : undefined, cache: 'no-store' })
+      .then(function (r) {
+        clearTimeout(minuteur);
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      }, function (e) { clearTimeout(minuteur); throw e; });
+  }
+
+  function lireSolde(appareil) {
+    return lireJSON(API + '/user/' + encodeURIComponent(appareil) + '/balance')
+      .then(function (d) {
+        var n = Number(d && d.tokens_balance);
+        if (!isFinite(n)) throw new Error('solde illisible');
+        return n;
+      });
+  }
+
+  function chargerPaddle() {
+    return new Promise(function (resolve, reject) {
+      if (window.Paddle) { resolve(window.Paddle); return; }
+      var s = document.createElement('script');
+      s.src = PADDLE_JS;
+      s.async = true;
+      // Un bloqueur, un bouclier Brave ou un réseau coupé : les trois causes
+      // vues en pratique. Chargé mais absent = script vide servi par un bloqueur.
+      s.onload = function () { window.Paddle ? resolve(window.Paddle) : reject(new Error('vide')); };
+      s.onerror = function () { reject(new Error('bloqué')); };
+      document.head.appendChild(s);
+    });
+  }
+
+  // ─── Le paiement ──────────────────────────────────────────────────────
+  var session = { priceId: null, appareil: null, avant: null, paye: false, pret: false };
+
+  function ouvrir() {
+    session.paye = false;
+    montrer('paiement');
+    try {
+      window.Paddle.Checkout.open({
+        items: [{ priceId: session.priceId, quantity: 1 }],
+        // LE lien entre le paiement et l'appareil. Sans lui, le webhook reçoit
+        // un paiement qu'il ne sait attribuer à personne.
+        customData: { device_id: session.appareil },
+        settings: { displayMode: 'overlay', theme: 'dark', locale: LOCALE_PADDLE[langue] }
+      });
+    } catch (e) {
+      montrer('erreur');
+    }
+  }
+
+  function surEvenement(ev) {
+    if (!ev || !ev.name) return;
+    if (ev.name === 'checkout.completed') {
+      if (session.paye) return;
+      session.paye = true;
+      montrer('attente');
+      // On laisse voir la confirmation de Paddle, puis on rend la page.
+      setTimeout(function () {
+        try { window.Paddle.Checkout.close(); } catch (e) { /* déjà fermée */ }
+      }, 2500);
+      attendreCredit();
+    } else if (ev.name === 'checkout.closed') {
+      // Après un paiement, `closed` suit `completed` : rien à dire de plus.
+      if (!session.paye) montrer('annule');
+    } else if (ev.name === 'checkout.error') {
+      if (!session.paye) montrer('erreur');
+    }
+  }
+
+  // La preuve, c'est le solde qui monte : `checkout.completed` vient du
+  // navigateur et n'importe qui peut l'émettre.
+  function attendreCredit() {
+    if (session.avant === null) { montrer('lent'); return; }
+    var fin = Date.now() + ATTENTE_CREDIT_MS;
+    (function tour() {
+      lireSolde(session.appareil).then(function (solde) {
+        if (solde > session.avant) {
+          montrer('credite', solde - session.avant);
+          // Tentative de retour automatique ; Chrome peut la refuser sans
+          // geste de la personne, le bouton reste là pour ça.
+          setTimeout(function () { location.href = RETOUR + '?etat=ok'; }, 1500);
+          return;
+        }
+        if (Date.now() > fin) { montrer('lent'); return; }
+        setTimeout(tour, PAS_MS);
+      }, function () {
+        if (Date.now() > fin) { montrer('lent'); return; }
+        setTimeout(tour, PAS_MS);
+      });
+    })();
+  }
+
+  el.reessayer.addEventListener('click', function () {
+    // Paddle.js n'a pas chargé : il faut recharger la page pour réessayer.
+    if (!session.pret) { location.reload(); return; }
+    ouvrir();
+  });
+
+  function demarrer() {
+    montrer('chargement');
+
+    var pack = params.pack;
+    var appareil = params.appareil;
+    if (!pack || !/^[A-Za-z0-9._-]{8,128}$/.test(appareil || '')) {
+      montrer('lien');
+      return;
+    }
+
+    lireJSON(API + '/billing/paddle/config').then(function (config) {
+      // Le pack vient du fragment, donc de n'importe qui : on ne lit que les
+      // clés PROPRES de la table (« __proto__ » n'est pas un pack).
+      var prix = config && config.prix;
+      var priceId = prix && Object.prototype.hasOwnProperty.call(prix, pack) ? prix[pack] : null;
+      if (typeof priceId !== 'string' || !config.jeton) { montrer('ferme'); return; }
+      session.priceId = priceId;
+      session.appareil = appareil;
+
+      if (config.environnement === 'sandbox') {
+        document.getElementById('test-texte').textContent = T.test;
+        document.getElementById('test-appareil').textContent = appareil;
+        el.test.hidden = false;
+      }
+
+      return chargerPaddle().then(function (Paddle) {
+        return lireSolde(appareil).then(function (s) { session.avant = s; },
+                                        function () { session.avant = null; })
+          .then(function () {
+            // ⚠️ L'environnement AVANT l'initialisation : un jeton de sandbox
+            // initialisé en production ouvre une fenêtre qui n'encaisse rien.
+            if (config.environnement === 'sandbox') Paddle.Environment.set('sandbox');
+            Paddle.Initialize({ token: config.jeton, eventCallback: surEvenement });
+            session.pret = true;
+            ouvrir();
+          });
+      }, function () {
+        montrer('bloque');
+      });
+    }, function () {
+      montrer('ferme');
+    });
+  }
+
+  demarrer();
+})();
+</script>
+</body>
+</html>

@@ -208,7 +208,7 @@
     <a href="#features">What ZIRA sees</a>
     <a href="#promise">The promise</a>
     <a href="#where">Where to find her</a>
-    <a href="#access" class="nav-cta">Get the app</a>
+    <a href="#where" class="nav-cta">Get the app</a>
   </div>
   <button class="burger" id="burger" aria-label="Menu">☰</button>
 </nav>
@@ -277,8 +277,19 @@
     <h2>Under the same sky, <em>on every screen.</em></h2>
     <p class="lead">One soul, several ways to meet her.</p>
     <div class="channels">
-      <div class="channel"><span class="tag">iOS</span><h4>App Store</h4><p>The complete experience on iPhone and iPad. The premium version, no compromise.</p><span class="soon">Soon</span></div>
-      <div class="channel highlight"><span class="tag">Android · Play</span><h4>Google Play</h4><p>ZIRA in open access. Discover everything — the sky isn't paid for at the door.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" target="_blank" rel="noopener">Get it on Google Play</a></div>
+<!-- LES QUATRE PORTES (owner, 2026-09-23), les deux ouvertes d'abord.
+           1. L'APK Android, telecharge ICI, sans Google Play : voir android/.
+              La carte Play d'avant menait a com.alhassan.ziraapp, dont la
+              fiche repond 404 — le bouton ne menait plus nulle part.
+           2. ZIRA dans Safari pour l'iPhone, posee sur l'ecran d'accueil :
+              voir app/ (exportee depuis zira-v4-app, npm run export:web).
+           3. L'App Store, si Apple approuve la 1.1.0 en revue.
+           4. Google Play, en pause tant que l'encaissement Play est
+              impossible depuis le Maroc. -->
+      <div class="channel highlight"><span class="tag">Android · APK</span><h4>ZIRA for Android</h4><p>Download the app straight from us — no store in between.</p><a class="dl" href="/android/">Download the APK</a></div>
+      <div class="channel highlight"><span class="tag">iPhone · Web app</span><h4>ZIRA for iPhone</h4><p>Open ZIRA in Safari, then add it to your Home Screen: it opens full screen, like an app.</p><a class="dl" href="/app/">Open ZIRA</a></div>
+      <div class="channel"><span class="tag">iOS · App Store</span><h4>App Store</h4><p>The native iPhone app, as soon as Apple approves it.</p><span class="soon">Soon</span></div>
+      <div class="channel"><span class="tag">Android · Google Play</span><h4>Google Play</h4><p>ZIRA on the Play Store.</p><span class="soon">Soon</span></div>
     </div>
   </div>
 </section>
@@ -287,7 +298,7 @@
   <div class="wrap reveal">
     <span class="kicker">The threshold</span>
     <h2>The sky was <em>already waiting</em> for you.</h2>
-    <p class="lead" style="margin:0 auto">ZIRA is almost here. Your first 3 messages with her will be free.</p>
+    <p class="lead" style="margin:0 auto">ZIRA is here. Your first 3 messages with her are free.</p>
     <p class="sky-line">We are all under one sky. 🌙</p>
   </div>
 </section>

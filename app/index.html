@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+    <!--
+      public/index.html — la page qui porte ZIRA dans un navigateur.
+
+      Expo la prend à la place de son modèle par défaut (voir
+      @expo/cli/build/src/start/server/webTemplate.js). Elle ajoute ce qu'il
+      faut pour que ZIRA, posée sur l'écran d'accueil d'un iPhone, se
+      comporte comme une app : plein écran, icône, barre d'état, encoche.
+
+      ⚠️ TOUS LES CHEMINS SONT RELATIFS (pas de « / » au début). L'app est
+      servie sous https://tryzira.com/app/ en production et à la racine en
+      développement : « manifest.json » tombe juste dans les deux cas,
+      « /manifest.json » ne tomberait juste que dans un.
+
+      viewport-fit=cover : sans lui, iOS garde des bandes noires autour de
+      l'encoche et react-native-safe-area-context lit des marges nulles.
+      maximum-scale=1 : empêche Safari de ZOOMER tout seul quand on touche le
+      champ du chat (il le fait dès qu'une police fait moins de 16 px). Le
+      zoom à deux doigts reste possible : iOS l'autorise quoi qu'on écrive.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <title>ZIRA</title>
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0A2038" />
+    <!-- L'app n'a rien à dire aux moteurs de recherche : c'est tryzira.com qui parle. -->
+    <meta name="robots" content="noindex" />
+
+    <!-- L'écran d'accueil de l'iPhone -->
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="ZIRA" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
+    <style id="expo-reset">
+      /* These styles make the body full-height */
+      html,
+      body {
+        height: 100%;
+      }
+      /* These styles disable body scrolling if you are using <ScrollView> */
+      body {
+        overflow: hidden;
+      }
+      /* These styles make the root element full-height */
+      #root {
+        display: flex;
+        height: 100%;
+        flex: 1;
+      }
+    </style>
+    <style id="zira">
+      /* Le fond de la plaque AVANT que le JavaScript n'arrive : sans lui, le
+         bundle (plusieurs Mo sur un réseau mobile) se charge sur du blanc. */
+      html,
+      body {
+        background: #030A13;
+        color: #DCEEF5;
+        -webkit-tap-highlight-color: transparent;
+        /* Pas de rebond ni de « tirer pour recharger » : c'est une app. */
+        overscroll-behavior: none;
+      }
+      .zira-attente {
+        margin: auto;
+        font: 400 22px/1 Georgia, serif;
+        letter-spacing: 0.35em;
+        padding-left: 0.35em;
+        color: #EAFEFF;
+        animation: zira-souffle 2.4s ease-in-out infinite;
+      }
+      @keyframes zira-souffle {
+        50% { opacity: 0.35; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .zira-attente { animation: none; }
+      }
+    </style>
+  <link rel="icon" href="/app/favicon.ico"/></head>
+
+  <body>
+    <noscript>
+      You need to enable JavaScript to run this app.
+    </noscript>
+    <!-- React remplace ce contenu au premier rendu : le mot ZIRA ne vit que
+         le temps du chargement. -->
+    <div id="root"><div class="zira-attente">ZIRA</div></div>
+  <script src="/app/_expo/static/js/web/index-15c12c89e6ea5b8e16ede59c0b9b4ce6.js" defer></script>
+</body>
+</html>
