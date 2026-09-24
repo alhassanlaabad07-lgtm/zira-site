@@ -23,8 +23,10 @@
   non le nom de plume du pied de page de l'accueil.
 
   Les chiffres viennent de zira-ai/models.py : TOKEN_PACKS (150 / 450 /
-  1250 bulles à 2,99 / 7,99 / 17,99 €) et FREE_MESSAGES_LIMIT (3). Une
-  bulle = un paragraphe de la réponse de Zira (TOKENS_PER_BUBBLE = 1).
+  1250 tokens à 2,99 / 7,99 / 17,99 €) et FREE_MESSAGES_LIMIT (3). Le site
+  dit « tokens », jamais « bulles » (owner, 2026-09-24) : un token paie un
+  paragraphe de la réponse de Zira, ce que le code appelle une bulle
+  (TOKENS_PER_BUBBLE = 1).
   Changer un pack là-bas oblige à changer cette page et l'accueil
   (#pricing).
 
@@ -41,7 +43,7 @@
 <header class="entete"><a class="logo" href="/"><img src="/sigle.svg" alt="" width="30" height="27">ZIRA</a></header>
 <main class="texte">
   <h1>Terms of Service</h1>
-  <p class="maj">Last updated: September 23, 2026</p>
+  <p class="maj">Last updated: September 24, 2026</p>
 
   <p>These terms apply to ZIRA — the Android app downloaded from tryzira.com, the web app at <a href="/app/">tryzira.com/app</a> and the iPhone app — and to purchases made on tryzira.com. By using ZIRA, you accept them. If you do not agree, please do not use ZIRA.</p>
   <p>ZIRA is operated by <strong>Alhassan Laabad</strong>, an individual based in Morocco (“we”, “us”). You can reach us at <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a>.</p>
@@ -53,32 +55,32 @@
   </div>
 
   <h2>2. Your recovery code</h2>
-  <p>ZIRA works without an account. On first launch, the app creates a random identifier that holds your bubble balance. Recent versions of the app show it in the Profile screen as your <strong>recovery code</strong>.</p>
+  <p>ZIRA works without an account. On first launch, the app creates a random identifier that holds your token balance. Recent versions of the app show it in the Profile screen as your <strong>recovery code</strong>.</p>
   <ul>
     <li>Keep it private: anyone who has it can use your balance.</li>
     <li>If you reinstall ZIRA or change device, enter it in the app to get your balance back. Without it, recovering a balance may be impossible.</li>
     <li>On Android, install updates over the existing app. Uninstalling first erases the identifier stored on your phone.</li>
   </ul>
 
-  <h2>3. Free messages and bubbles</h2>
+  <h2>3. Free messages and tokens</h2>
   <ul>
     <li>Your first <strong>3 messages</strong> with Zira are free.</li>
-    <li>After that, Zira’s replies use <strong>bubbles</strong>. A reply appears as one or more bubbles, and each one uses one bubble from your balance.</li>
-    <li>Bubbles come in packs, bought once. There is no subscription, and nothing renews by itself.</li>
-    <li>Bubbles are a right to use ZIRA, not money. They cannot be exchanged for cash or resold, except for the refunds described in our <a href="/refunds/">Refund Policy</a>.</li>
-    <li>Unused bubbles expire if you ask us to delete your data, or after 2 years without using ZIRA.</li>
+    <li>After that, Zira’s replies use <strong>tokens</strong>: each paragraph of a reply, as it appears on screen, uses one token from your balance.</li>
+    <li>Tokens come in packs, bought once. There is no subscription, and nothing renews by itself.</li>
+    <li>Tokens are a right to use ZIRA, not money. They cannot be exchanged for cash or resold, except for the refunds described in our <a href="/refunds/">Refund Policy</a>.</li>
+    <li>Unused tokens expire if you ask us to delete your data, or after 2 years without using ZIRA.</li>
   </ul>
 
   <h2>4. Prices and payment</h2>
   <ul>
-    <li>On tryzira.com, packs cost <strong>€2.99 for 150 bubbles</strong>, <strong>€7.99 for 450 bubbles</strong> and <strong>€17.99 for 1,250 bubbles</strong>, taxes included. The final price is always shown before you pay.</li>
+    <li>On tryzira.com, packs cost <strong>€2.99 for 150 tokens</strong>, <strong>€7.99 for 450 tokens</strong> and <strong>€17.99 for 1,250 tokens</strong>, taxes included. The final price is always shown before you pay.</li>
     <li>Purchases on tryzira.com, including those started from the Android app downloaded there, are processed by <strong>Paddle.com</strong>, our reseller and Merchant of Record. Paddle handles payment, invoicing and sales tax, and your purchase is also subject to <a href="https://www.paddle.com/legal/buyer-terms">Paddle’s Buyer Terms</a>. We never see your card details.</li>
     <li>Purchases in Apple’s App Store are processed by Apple, under Apple’s terms. Prices there may differ.</li>
-    <li>Bubbles reach your balance as soon as the payment is confirmed, usually within seconds. If they have not arrived after a few minutes, write to us: we will credit them or refund you.</li>
+    <li>Tokens reach your balance as soon as the payment is confirmed, usually within seconds. If they have not arrived after a few minutes, write to us: we will credit them or refund you.</li>
   </ul>
 
   <h2>5. Refunds</h2>
-  <p>A pack you have not started using is refunded in full within 14 days of purchase. Duplicate payments and bubbles that never arrived are always refunded. Everything is explained in our <a href="/refunds/">Refund Policy</a>.</p>
+  <p>A pack you have not started using is refunded in full within 14 days of purchase. Duplicate payments and tokens that never arrived are always refunded. Everything is explained in our <a href="/refunds/">Refund Policy</a>.</p>
   <p>If you live in the European Union or the United Kingdom, you also keep the legal right of withdrawal described in Paddle’s Buyer Terms.</p>
 
   <h2>6. Fair use</h2>
@@ -99,7 +101,7 @@
   <p>ZIRA is provided “as is”. We work to keep it available and correct, but we cannot promise that it will always be available or free of errors. We are not responsible for decisions you make based on a reading. As far as the law allows, our total liability is limited to what you paid for ZIRA in the 12 months before your claim. Nothing in these terms takes away rights that consumer law gives you and that cannot be waived.</p>
 
   <h2>9. Changes</h2>
-  <p>We may change, suspend or stop ZIRA. If ZIRA closes for good, we will refund, in proportion, the unused bubbles of packs bought in the 30 days before closing.</p>
+  <p>We may change, suspend or stop ZIRA. If ZIRA closes for good, we will refund, in proportion, the unused tokens of packs bought in the 30 days before closing.</p>
   <p>We may also update these terms. The date at the top shows the current version; if a change matters, we will announce it in the app or on this page before it applies.</p>
 
   <h2>10. Stopping</h2>
