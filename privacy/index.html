@@ -33,6 +33,19 @@
     serveur du musée qui la publie.
   - Aucun jeton de notification ne part au serveur, aucun SDK d'analyse.
 
+  2026-09-25 — LA VERSION GOOGLE PLAY. Elle ne vend rien : une vidéo
+  récompensée d'AdMob, et Zira répond (zira-v4-app/src/services/pubs.js).
+  AdMob collecte l'identifiant publicitaire et des données de l'appareil ;
+  l'app ne lui transmet que l'identifiant ZIRA (serverSideVerificationOptions
+  .userId), que Google renvoie au serveur dans son rappel signé
+  (zira-ai/pubs_router.py). Le formulaire de consentement de Google (UMP)
+  s'affiche en Europe avant la première vidéo ; « Ad privacy choices » le
+  rouvre. L'ancienne phrase « no advertising, no advertising identifier »
+  devenait fausse ce jour-là : elle est remplacée ici.
+  Même jour : le SIGNALEMENT d'une réponse (règle « AI-Generated Content »
+  de Play) garde la bulle, la raison, la langue et l'identifiant
+  (zira-ai/signalement_router.py) — rien de ce que la personne a écrit.
+
   Deux copies plus anciennes existent encore : zira-ai/static/privacy.html
   (Render) et le dépôt zira-privacy (18 mai 2026). Ni l'une ni l'autre ne
   parle de Paddle.
@@ -43,11 +56,11 @@
 <header class="entete"><a class="logo" href="/"><img src="/sigle.svg" alt="" width="30" height="27">ZIRA</a></header>
 <main class="texte">
   <h1>Privacy Policy</h1>
-  <p class="maj">Last updated: September 24, 2026</p>
+  <p class="maj">Last updated: September 25, 2026</p>
 
   <p>This policy explains what happens to your data when you use ZIRA — the apps and the website tryzira.com. ZIRA is operated by <strong>Alhassan Laabad</strong>, based in Morocco, who is responsible for your data. Questions: <a href="mailto:zira.app.contact@gmail.com">zira.app.contact@gmail.com</a>.</p>
   <div class="encadre">
-    <p><strong>In short:</strong> no account, no advertising, no trackers. Your profile and your conversations stay on your device. Our server uses them only while Zira writes her reply, and does not keep them.</p>
+    <p><strong>In short:</strong> no account, no trackers. Your profile and your conversations stay on your device. Our server uses them only while Zira writes her reply, and does not keep them. Only the ZIRA app from Google Play shows ads: short videos from Google AdMob, which you choose to watch.</p>
   </div>
 
   <h2>1. What we use, and why</h2>
@@ -60,6 +73,8 @@
     <li>In the App Store, Apple takes the payment and sends us a transaction identifier.</li>
     <li>We keep transaction numbers so that no purchase is credited twice, and for support.</li>
   </ul>
+  <p><strong>Videos in the Google Play app.</strong> The ZIRA app from Google Play sells nothing: instead, you can choose to watch a short video, shown by Google AdMob, to receive a reply from Zira. To show it and measure it, AdMob collects information from your device — such as its advertising ID, IP address, device model and how you interact with the ad — under <a href="https://policies.google.com/privacy">Google’s privacy policy</a> (see also <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that use its services</a>). In the European Economic Area, the United Kingdom and Switzerland, Google’s consent form asks for your choice before the first video, and “Ad privacy choices” in the app lets you change it. We send AdMob only your anonymous identifier, so that Google can confirm to our server that the video was watched and we can credit your reply. You can reset or delete your advertising ID in your device settings. The App Store app and the website show no ads.</p>
+  <p><strong>Reports.</strong> If you report one of Zira’s replies, we keep the reported reply, the reason you chose and the app language, with your anonymous identifier, to review it and improve how Zira’s replies are moderated. Nothing you wrote is sent with it.</p>
   <p><strong>Technical data.</strong> When your device connects to our server or to tryzira.com, our hosting providers receive its IP address and may keep it for a limited time in technical logs, to run and secure the service. When the app or the server runs into an error, a technical report is sent to Sentry, our error-monitoring service. It describes the error, the app version and the device model, without your IP address. A report from the server can include the content of the request that failed.</p>
   <p><strong>Content loaded from other services.</strong> Some content comes from other servers, which then receive your device’s IP address: card images (Cloudinary), the artwork of the day (the museum or archive that publishes it) and the website’s fonts (Google Fonts). When you look for your birth city, what you type is sent to OpenStreetMap’s place search (Nominatim) to find it.</p>
   <p><strong>The website.</strong> tryzira.com sets no cookies and uses no analytics or advertising trackers. The payment page opens Paddle’s payment window, which may use its own cookies.</p>
@@ -69,15 +84,17 @@
     <li>No account and no password.</li>
     <li>No location: your birth city is only what you type.</li>
     <li>No access to your contacts, photos, microphone or camera.</li>
-    <li>No advertising, no advertising identifier, no third-party analytics.</li>
+    <li>No third-party analytics.</li>
+    <li>No advertising in the App Store app or on the website. In the Google Play app, only the videos you choose to watch, as described above.</li>
   </ul>
 
   <h2>3. Who receives data</h2>
-  <p>We do not sell your data, and we do not share it for advertising. Only these services receive some of it, each for one purpose:</p>
+  <p>We do not sell your data. Only these services receive some of it, each for one purpose:</p>
   <ul>
     <li><strong>OpenAI</strong> — writes Zira’s replies, from your messages and, with your consent, your profile.</li>
     <li><strong>Paddle</strong> — takes payments on tryzira.com, as the seller of record.</li>
     <li><strong>Apple</strong> — takes payments in the App Store.</li>
+    <li><strong>Google (AdMob)</strong> — shows the videos in the Google Play app, and confirms to our server that one was watched.</li>
     <li><strong>Render</strong> — hosts our server and our database.</li>
     <li><strong>GitHub</strong> — hosts tryzira.com and the Android app download.</li>
     <li><strong>Sentry</strong> — receives error reports.</li>
@@ -91,6 +108,8 @@
     <li>Running ZIRA and delivering what you bought: our contract with you.</li>
     <li>Personalizing readings with your profile: your consent, which you can withdraw at any time by writing to us.</li>
     <li>Error reports and technical logs: our legitimate interest in keeping ZIRA working and secure.</li>
+    <li>Videos in the Google Play app: your consent where the law requires it — in the European Economic Area, the United Kingdom and Switzerland, collected by Google’s consent form; elsewhere, our legitimate interest in keeping the Google Play app free.</li>
+    <li>Reports: our legitimate interest in moderating Zira’s replies.</li>
     <li>Purchase records: our legal and accounting obligations.</li>
   </ul>
 
@@ -99,6 +118,7 @@
     <li>Your identifier, balance and purchase history: as long as you use ZIRA. You can ask us to delete them at any time.</li>
     <li>Purchase records that accounting law requires us to keep: for the period the law sets.</li>
     <li>Your profile and conversations: on your device only, until you delete the app — or your browser’s data, for the web app.</li>
+    <li>Reports: as long as we need them to review Zira’s replies. You can ask us to delete them at any time.</li>
   </ul>
 
   <h2>6. Your rights</h2>
