@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZIRA — The sky before Galileo</title>
-<meta name="description" content="ZIRA shows the sky as it turns above you right now, in three dimensions, with your birth chart beside it. Tarot, numerology and an AI guide to talk to.">
+<meta name="description" content="ZIRA shows the sky as it turns right now, in three dimensions, with your birth chart beside it. Tarot, numerology and an AI guide to talk to.">
 <meta property="og:title" content="ZIRA — The sky before Galileo">
-<meta property="og:description" content="People read the sky with the naked eye for millennia. ZIRA shows it turning above you right now, with your birth chart beside it.">
+<meta property="og:description" content="People read the sky with the naked eye for millennia. ZIRA shows it turning right now, with your birth chart beside it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tryzira.com/">
 
 <!-- L'image de partage doit etre une URL ABSOLUE et matricielle : aucun
      moissonneur social ne suit un data-URI ni un chemin relatif. 1200x630
      est le format que Facebook, LinkedIn et X recadrent le moins. -->
-<meta property="og:image" content="https://tryzira.com/og-image.png">
+<meta property="og:image" content="https://tryzira.com/og-image.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The ZIRA mark under a night sky — The sky before Galileo.">
@@ -33,12 +33,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!--
   REFONTE DU 2026-09-23 — « l'actuel, en mieux » (choix de l'owner).
-  On garde le noir profond, Cormorant, le sigle, le ciel anime et les textes
-  de l'owner. Ce qui change :
+  On garde le noir profond, Cormorant, le sigle et le ciel anime. Ce qui
+  change :
   - le produit se VOIT enfin : de vraies captures de l'app (img/, tirees de
     zira-v4-app/scripts/captures-store/captures, barre d'etat rognee) ;
   - l'histoire et la promesse ne font plus qu'une section, et « Where to
-    find her » absorbe la conclusion : sept blocs deviennent cinq ;
+    find it » absorbe la conclusion : sept blocs deviennent cinq ;
   - le menu tient sur une ligne a toutes les largeurs (il passait sur deux
     ou trois lignes a 768 px) ;
   - les prix et les pages legales exigees par Paddle (terms/, refunds/,
@@ -56,6 +56,10 @@
   contre la science ; aucune date, aucun « premier », aucun compte de
   planetes (l'app en montre dix) ; une lecture est une reflexion, pas une
   prediction. Les mentions LEGALES du pays (terms/, privacy/) restent.
+  Relecture adverse du meme jour : la page ne promet que ce que l'app fait
+  AUJOURD'HUI — le ciel de l'heure (pas « au-dessus de vous » : la scene se
+  calcule pour la ville du profil), trois habillages de tarot, sept
+  langues, un guide qui connait le profil (pas de « memoire »).
 -->
 <style>
   :root{
@@ -165,7 +169,7 @@
   .promise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:36px;margin-top:60px;
     padding-top:48px;border-top:1px solid var(--line)}
   .promise .ic{font-size:1.5rem;margin-bottom:14px;color:var(--cyan)}
-  .promise h4{font-family:var(--display);font-size:1.35rem;color:var(--offwhite);margin-bottom:8px;font-weight:500}
+  .promise h3{font-family:var(--display);font-size:1.35rem;color:var(--offwhite);margin-bottom:8px;font-weight:500}
   .promise p{font-size:.92rem;color:var(--ink-soft)}
   .signature{font-family:var(--display);font-style:italic;font-size:1.45rem;color:var(--cyan);margin-top:56px}
   /* La sphere armillaire, l'instrument du ciel d'avant la lunette : le
@@ -196,12 +200,12 @@
   .pack{border:1px solid var(--line);border-radius:16px;padding:30px 26px;background:rgba(7,5,36,.45);text-align:center}
   .pack.highlight{border-color:rgba(0,212,255,.4);box-shadow:0 0 40px rgba(0,212,255,.08)}
   .pack .tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-  .pack h4{font-family:var(--display);font-size:1.5rem;color:var(--offwhite);margin:12px 0 4px;font-weight:500}
+  .pack h3{font-family:var(--display);font-size:1.5rem;color:var(--offwhite);margin:12px 0 4px;font-weight:500}
   .pack .price{font-family:var(--display);font-size:2.6rem;line-height:1.1;color:var(--cyan)}
   .fine{font-size:.86rem;color:var(--ink-soft);max-width:640px;margin-top:32px}
   .fine a{color:var(--ink)}
 
-  /* Ou la trouver — et la conclusion, qui avait sa propre section */
+  /* Ou le trouver — et la conclusion, qui avait sa propre section */
   .channels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin-top:52px}
   @media(min-width:1100px){.channels{grid-template-columns:repeat(4,minmax(0,1fr))}}
   .channel{border:1px solid var(--line);border-radius:16px;padding:28px 24px;background:rgba(7,5,36,.4);transition:transform .4s,border-color .4s;
@@ -209,7 +213,7 @@
   .channel:hover{transform:translateY(-6px);border-color:var(--cyan)}
   .channel.highlight{border-color:rgba(0,212,255,.4);box-shadow:0 0 40px rgba(0,212,255,.08)}
   .channel .tag{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
-  .channel h4{font-family:var(--display);font-size:1.5rem;color:var(--offwhite);margin:10px 0;font-weight:500}
+  .channel h3{font-family:var(--display);font-size:1.5rem;color:var(--offwhite);margin:10px 0;font-weight:500}
   .channel p{font-size:.9rem;color:var(--ink-soft);margin-bottom:20px;flex:1}
   .channel .soon,.channel .dl{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
     border:1px solid var(--line);padding:6px 14px;border-radius:30px;display:inline-block}
@@ -242,6 +246,7 @@
     .hero .phone{width:min(250px,72%)}
     .halo{inset:-8% 0}
     .feat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .feat:last-child{grid-column:1/-1}
   }
   @media(max-width:720px){
     .navlinks{position:fixed;top:0;right:0;left:auto;height:100vh;height:100dvh;width:74%;max-width:320px;z-index:55;
@@ -304,7 +309,7 @@
     <span class="eyebrow monte d1">The old art of looking up</span>
     <h1 class="monte d2">ZIRA</h1>
     <p class="tagline monte d3">The sky <em>before Galileo.</em></p>
-    <p class="sub monte d4">For millennia, people read the sky with the naked eye, the Earth at the centre. ZIRA shows it turning above you right now, in three dimensions, with your birth chart beside it.</p>
+    <p class="sub monte d4">For millennia, people read the sky with the naked eye, the Earth at the centre. ZIRA shows it turning right now, in three dimensions, with your birth chart beside it.</p>
     <span class="gift monte d5">✦ Your first 3 messages with Zira are free</span>
     <div class="cta-row monte d6">
       <a href="#where" class="btn btn-primary">Get the app</a>
@@ -331,12 +336,12 @@
       <circle cx="100" cy="100" r="6" fill="currentColor" stroke="none"/>
     </svg>
     <span class="kicker">Before Galileo</span>
-    <h2>Astronomy and astrology were <em>once a single art.</em></h2>
+    <h2>Astronomy and astrology <em>once went hand in hand.</em></h2>
     <p class="recit">The old model put the Earth at the centre, with the sky turning around it. The armillary sphere and the astrolabe were its instruments; the eye did the rest. The telescope has since taught us far more. It did not change what the naked eye sees. ZIRA starts from that view.</p>
     <div class="promise-grid" id="promise">
-      <div class="promise"><div class="ic">◉</div><h4>The sky, right now</h4><p>What turns on the screen is what turns above you, at this very hour.</p></div>
-      <div class="promise"><div class="ic">◐</div><h4>Reflection, not fate</h4><p>A reading is something to think with. It predicts nothing and decides nothing for you.</p></div>
-      <div class="promise"><div class="ic">✶</div><h4>An AI, said plainly</h4><p>Zira, the guide you talk to, is an AI. She has memory and answers in eight languages.</p></div>
+      <div class="promise"><div class="ic" aria-hidden="true">◉</div><h3>The sky, right now</h3><p>What turns on the screen is the real sky of this very hour.</p></div>
+      <div class="promise"><div class="ic" aria-hidden="true">◐</div><h3>Reflection, not fate</h3><p>A reading is something to think with. It promises nothing and decides nothing for you.</p></div>
+      <div class="promise"><div class="ic" aria-hidden="true">✶</div><h3>A guide to talk to</h3><p>Zira is an AI guide. She knows the profile you give her and answers in seven languages.</p></div>
     </div>
     <p class="signature">As above, so below.</p>
   </div>
@@ -346,23 +351,23 @@
   <div class="wrap reveal">
     <span class="kicker">What ZIRA shows</span>
     <h2>The sky first. <em>Then the cards and the numbers.</em></h2>
-    <p class="lead">Eight ways of reading, from the sky turning above you right now to a single card. Each is a way of looking, not a forecast. And one guide to talk to.</p>
+    <p class="lead">Eight ways of reading, from the live sky to a single card. Each is a way of looking, not a promise. And one guide to talk to.</p>
     <div class="screens">
       <figure class="screen"><div class="phone"><img src="/img/theme-natal.webp" width="540" height="1124" loading="lazy" alt="A natal chart in ZIRA."></div><figcaption><strong>Your birth sky</strong>Planets, houses and angles at the hour you were born.</figcaption></figure>
       <figure class="screen"><div class="phone"><img src="/img/tirage.webp" width="540" height="1124" loading="lazy" alt="A tarot spread revealed in ZIRA."></div><figcaption><strong>Tarot</strong>Your spread, turned card by card.</figcaption></figure>
       <figure class="screen"><div class="phone"><img src="/img/matrice.webp" width="540" height="1124" loading="lazy" alt="The Matrix of Destiny: tarot cards drawn from a birth date."></div><figcaption><strong>Matrix of Destiny</strong>Drawn from your birth date alone.</figcaption></figure>
-      <figure class="screen"><div class="phone"><img src="/img/conversation.webp" width="540" height="1124" loading="lazy" alt="A reading from Zira, the AI guide, in the chat."></div><figcaption><strong>Zira, the guide</strong>An AI you talk to, with memory.</figcaption></figure>
+      <figure class="screen"><div class="phone"><img src="/img/conversation.webp" width="540" height="1124" loading="lazy" alt="A reading from Zira, the AI guide, in the chat."></div><figcaption><strong>Zira, the guide</strong>An AI guide you talk to.</figcaption></figure>
     </div>
     <div class="feat-grid">
-      <div class="feat"><span class="glyph">☾</span><span class="num">01</span><h3>Live Sky</h3><p>The sky as it turns above you now, in three dimensions. The planets circle the Earth, as in the old model, beside your natal wheel and its aspects.</p></div>
-      <div class="feat"><span class="glyph">◐</span><span class="num">02</span><h3>Energy of the day</h3><p>By tradition, each day is ruled by one of the seven classical planets. Here is today's: its hour, its colour, its stone.</p></div>
-      <div class="feat"><span class="glyph">☽</span><span class="num">03</span><h3>Vedic Kundli</h3><p>The sidereal chart of Jyotish: houses, planets, and the dashas, its planetary periods.</p></div>
-      <div class="feat"><span class="glyph">✦</span><span class="num">04</span><h3>Tarot</h3><p>78 cards and 11 spreads, from a single card to the Celtic Cross and the Tree of Life. Four deck styles to choose from.</p></div>
-      <div class="feat"><span class="glyph">◈</span><span class="num">05</span><h3>The 40-card baraja</h3><p>A Spanish-suited deck with ten spreads of its own, from the cross of five to the line of a life.</p></div>
-      <div class="feat"><span class="glyph">❋</span><span class="num">06</span><h3>Conscious Draw</h3><p>You give the numbers, the cards answer. It is a draw you take part in.</p></div>
-      <div class="feat"><span class="glyph">◇</span><span class="num">07</span><h3>Matrix of Destiny</h3><p>Drawn from your birth date alone: portrait, talents, lesson, karma, essence, the four ancestors, the mission.</p></div>
-      <div class="feat"><span class="glyph">∴</span><span class="num">08</span><h3>Numerology</h3><p>The Pythagorean method: life path, expression, soul urge. Numbers to think with, not to obey.</p></div>
-      <div class="feat"><span class="glyph">✶</span><span class="num">09</span><h3>Zira, the guide</h3><p>A conversational guide with memory, in eight languages. Zira is an AI. Your first 3 messages are free; after that, replies use tokens.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">☾</span><span class="num">01</span><h3>Live Sky</h3><p>The sky as it turns right now, in three dimensions. Earth at the centre, as in the old model: the planets circle it, beside your natal wheel and its aspects.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">◐</span><span class="num">02</span><h3>Energy of the day</h3><p>By tradition, each day is ruled by one of the seven classical planets. Here is today's, with the day's number, its arcana and the phase of the Moon.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">☽</span><span class="num">03</span><h3>Vedic Kundli</h3><p>The sidereal chart of Jyotish: houses, planets, and the dashas, its planetary periods.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">✦</span><span class="num">04</span><h3>Tarot</h3><p>78 cards and 11 spreads, from a single card to the Celtic Cross and the Tree of Life. Three deck styles to choose from.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">◈</span><span class="num">05</span><h3>The 40-card baraja</h3><p>A Spanish-suited deck with ten spreads of its own, from the cross of five to the line of a life.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">❋</span><span class="num">06</span><h3>Conscious Draw</h3><p>You give the numbers, the cards answer. It is a draw you take part in.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">◇</span><span class="num">07</span><h3>Matrix of Destiny</h3><p>Drawn from your birth date alone: portrait, talents, lesson, karma, essence, the four ancestors, the mission.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">∴</span><span class="num">08</span><h3>Numerology</h3><p>The Pythagorean method: life path, expression, soul urge. Numbers to think with, not to obey.</p></div>
+      <div class="feat"><span class="glyph" aria-hidden="true">✶</span><span class="num">09</span><h3>Zira, the guide</h3><p>A conversational guide who knows your profile, in seven languages. Zira is an AI. Your first 3 messages are free; after that, replies use tokens.</p></div>
     </div>
   </div>
 </section>
@@ -373,9 +378,9 @@
     <h2>Three messages free. <em>Then, at your pace.</em></h2>
     <p class="lead">Your first 3 messages with Zira are free. After that, her replies use tokens from your balance. A pack is bought once: no subscription, nothing renews.</p>
     <div class="packs">
-      <div class="pack"><span class="tag">To begin</span><h4>150 tokens</h4><p class="price">€2.99</p></div>
-      <div class="pack"><span class="tag">To go further</span><h4>450 tokens</h4><p class="price">€7.99</p></div>
-      <div class="pack highlight"><span class="tag">Best value</span><h4>1,250 tokens</h4><p class="price">€17.99</p></div>
+      <div class="pack"><span class="tag">To begin</span><h3>150 tokens</h3><p class="price">€2.99</p></div>
+      <div class="pack"><span class="tag">To go further</span><h3>450 tokens</h3><p class="price">€7.99</p></div>
+      <div class="pack highlight"><span class="tag">Best value</span><h3>1,250 tokens</h3><p class="price">€17.99</p></div>
     </div>
     <p class="fine">Prices on tryzira.com and in the Android app downloaded from it, in euros, taxes included. Payment is handled by Paddle.com, our reseller; in the App Store, prices may differ. An unused pack is refunded within 14 days — see our <a href="/refunds/">Refund Policy</a> and <a href="/terms/">Terms of Service</a>.</p>
   </div>
@@ -399,10 +404,10 @@
          2026-09-24 : l'owner retire les boutons des portes 1 et 2 (« Download
          the APK », « Open ZIRA »), et seulement eux. Paddle a refusé ZIRA :
          plus d'encaissement hors store. android/ et app/ restent en ligne. -->
-      <div class="channel highlight"><span class="tag">Android · APK</span><h4>ZIRA for Android</h4><p>Download the app straight from us — no store in between.</p></div>
-      <div class="channel highlight"><span class="tag">iPhone · Web app</span><h4>ZIRA for iPhone</h4><p>Open ZIRA in Safari, then add it to your Home Screen: it opens full screen, like an app.</p></div>
-      <div class="channel"><span class="tag">iOS · App Store</span><h4>App Store</h4><p>The native iPhone app.</p><span class="soon">Soon</span></div>
-      <div class="channel highlight"><span class="tag">Android · Google Play</span><h4>Google Play</h4><p>ZIRA on the Play Store.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" target="_blank" rel="noopener">Get it on Google Play</a></div>
+      <div class="channel highlight"><span class="tag">Android · APK</span><h3>ZIRA for Android</h3><p>Download the app straight from us — no store in between.</p></div>
+      <div class="channel highlight"><span class="tag">iPhone · Web app</span><h3>ZIRA for iPhone</h3><p>Open ZIRA in Safari, then add it to your Home Screen: it opens full screen, like an app.</p></div>
+      <div class="channel"><span class="tag">iOS · App Store</span><h3>App Store</h3><p>The native iPhone app.</p><span class="soon">Soon</span></div>
+      <div class="channel highlight"><span class="tag">Android · Google Play</span><h3>Google Play</h3><p>ZIRA on the Play Store.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" target="_blank" rel="noopener">Get it on Google Play</a></div>
     </div>
     <p class="sky-line">We are all under one sky. Look up.</p>
   </div>
@@ -544,7 +549,9 @@
   const burger=document.getElementById('burger'),menu=document.getElementById('menu');
   burger.addEventListener('click',()=>menu.classList.toggle('open'));
   menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.18});
+  /* Seuil 0 et marge basse : un seuil en pourcentage ne s'atteint jamais pour
+     un bloc plus haut que l'ecran (la section des fonctions sur un telephone). */
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:0,rootMargin:'0px 0px -12% 0px'});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 </script>
 </body>
