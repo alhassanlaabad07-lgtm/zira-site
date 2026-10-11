@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZIRA — Talk to Your Guide</title>
-<meta name="description" content="ZIRA — a guide you actually talk to, born from Amazigh moonlight. Open a conversation, draw your cards, read your stars and numbers, and get a personal answer — never generic.">
-<meta property="og:title" content="ZIRA — Talk to Your Guide">
-<meta property="og:description" content="A guide you talk to, not a horoscope feed. Born from Amazigh moonlight — she sees you before you speak.">
+<title>ZIRA — The sky before Galileo</title>
+<meta name="description" content="ZIRA shows the sky as it turns above you right now, in three dimensions, with your birth chart beside it. Tarot, numerology and an AI guide to talk to.">
+<meta property="og:title" content="ZIRA — The sky before Galileo">
+<meta property="og:description" content="People read the sky with the naked eye for millennia. ZIRA shows it turning above you right now, with your birth chart beside it.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tryzira.com/">
 
@@ -16,7 +16,7 @@
 <meta property="og:image" content="https://tryzira.com/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Le sigle de ZIRA sous un ciel de nuit — As above, so below.">
+<meta property="og:image:alt" content="The ZIRA mark under a night sky — The sky before Galileo.">
 <meta name="twitter:card" content="summary_large_image">
 
 <!-- La favicone porte le CROISSANT SEUL, pas le sigle entier. C'est la regle
@@ -46,6 +46,16 @@
   - « prefers-reduced-motion » est enfin respecte.
   Le site reste en anglais (choix de l'owner) ; android/ et payer/ gardent
   leurs langues, parce qu'ils suivent celle du telephone.
+
+  NOUVELLE IDENTITE DU 2026-10-11 — « ZIRA : The sky before Galileo »
+  (owner). Le ciel devient le sujet ; le guide Zira est une fonction parmi
+  les autres, et il est dit que c'est une IA. Plus aucune identite de
+  terroir sur cette page : ni origine du nom, ni ecriture, ni region, ni
+  ville. Le fond, la typographie, le sigle et le ciel anime ne changent
+  pas. Regles du texte : « avant Galilee » se lit comme un heritage, jamais
+  contre la science ; aucune date, aucun « premier », aucun compte de
+  planetes (l'app en montre dix) ; une lecture est une reflexion, pas une
+  prediction. Les mentions LEGALES du pays (terms/, privacy/) restent.
 -->
 <style>
   :root{
@@ -158,8 +168,13 @@
   .promise h4{font-family:var(--display);font-size:1.35rem;color:var(--offwhite);margin-bottom:8px;font-weight:500}
   .promise p{font-size:.92rem;color:var(--ink-soft)}
   .signature{font-family:var(--display);font-style:italic;font-size:1.45rem;color:var(--cyan);margin-top:56px}
+  /* La sphere armillaire, l'instrument du ciel d'avant la lunette : le
+     seul signe dessine de la nouvelle identite. Des traits, donc une
+     epaisseur fixe — elle n'existe qu'a cette taille. */
+  .armille{display:block;width:108px;height:108px;margin:0 auto 30px;color:var(--cyan);opacity:.85;
+    fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round}
 
-  /* Ce que voit ZIRA : quatre ecrans, puis les neuf traditions */
+  /* Ce que montre ZIRA : quatre ecrans, puis huit lectures et le guide */
   .screens{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin-top:56px}
   .screen{text-align:center}
   .screen .phone{width:100%;max-width:250px;margin:0 auto}
@@ -210,7 +225,7 @@
   .foot-links.legal{margin-bottom:26px}
   .foot-links.legal a{font-size:.76rem}
   .copy{font-size:.76rem;color:var(--ink-soft);letter-spacing:.04em}
-  .copy .amz{color:var(--gold)}
+  .copy .devise{color:var(--gold)}
   /* Ligne de remerciement, demandee par l'auteur le 2026-08-28. Un cran
      plus discrete que la ligne de copyright : elle credite, elle ne
      reclame pas le regard. */
@@ -275,8 +290,8 @@
     ZIRA
   </a>
   <div class="navlinks" id="menu">
-    <a href="#story">The story</a>
-    <a href="#features">What ZIRA sees</a>
+    <a href="#story">Before Galileo</a>
+    <a href="#features">What ZIRA shows</a>
     <a href="#pricing">Pricing</a>
     <a href="#where" class="nav-cta">Get the app</a>
   </div>
@@ -286,14 +301,14 @@
 <header class="hero" id="top">
   <div class="hero-texte">
     <svg class="sigil monte" viewBox="-0.26 0.00 348.85 315.68" role="img" aria-label="ZIRA"><use href="#zira-mark"/></svg>
-    <span class="eyebrow monte d1">Amazigh moonlight · Under one sky</span>
+    <span class="eyebrow monte d1">The old art of looking up</span>
     <h1 class="monte d2">ZIRA</h1>
-    <p class="tagline monte d3">As above, <em>so below.</em></p>
-    <p class="sub monte d4">A guide you actually talk to — born from Amazigh moonlight. She sees you before you speak, answers you personally, and stays.</p>
+    <p class="tagline monte d3">The sky <em>before Galileo.</em></p>
+    <p class="sub monte d4">For millennia, people read the sky with the naked eye, the Earth at the centre. ZIRA shows it turning above you right now, in three dimensions, with your birth chart beside it.</p>
     <span class="gift monte d5">✦ Your first 3 messages with Zira are free</span>
     <div class="cta-row monte d6">
       <a href="#where" class="btn btn-primary">Get the app</a>
-      <a href="#story" class="btn btn-ghost">Discover the story</a>
+      <a href="#story" class="btn btn-ghost">Why before Galileo?</a>
     </div>
   </div>
   <div class="hero-visuel monte d4">
@@ -304,39 +319,50 @@
 
 <section class="story" id="story">
   <div class="wrap reveal">
-    <span class="kicker">The story</span>
-    <h2>Like the moon, ZIRA reveals <em>what hides in the dark.</em></h2>
-    <p class="recit">“ZIRA” means moonlight in Amazigh — the language of peoples who read the sky long before screens existed. She grows from a specific root, North African, yet carries a message that belongs to no one: we all search for meaning under the same sky.</p>
+    <svg class="armille" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+      <circle cx="100" cy="100" r="80"/>
+      <g transform="rotate(-23.4 100 100)">
+        <line x1="100" y1="6" x2="100" y2="194"/>
+        <ellipse cx="100" cy="100" rx="80" ry="24"/>
+        <ellipse cx="100" cy="64" rx="71.4" ry="19" opacity=".5"/>
+        <ellipse cx="100" cy="136" rx="71.4" ry="19" opacity=".5"/>
+      </g>
+      <ellipse cx="100" cy="100" rx="80" ry="27" stroke-width="2.4"/>
+      <circle cx="100" cy="100" r="6" fill="currentColor" stroke="none"/>
+    </svg>
+    <span class="kicker">Before Galileo</span>
+    <h2>Astronomy and astrology were <em>once a single art.</em></h2>
+    <p class="recit">The old model put the Earth at the centre, with the sky turning around it. The armillary sphere and the astrolabe were its instruments; the eye did the rest. The telescope has since taught us far more. It did not change what the naked eye sees. ZIRA starts from that view.</p>
     <div class="promise-grid" id="promise">
-      <div class="promise"><div class="ic">◉</div><h4>She sees you</h4><p>ZIRA reads you before you speak. No cold form — a presence that senses.</p></div>
-      <div class="promise"><div class="ic">☉</div><h4>She sells nothing</h4><p>Knowledge is given. The transaction only comes after value, never before.</p></div>
-      <div class="promise"><div class="ic">∞</div><h4>She stays</h4><p>A spiritual friend for life. She remembers, she accompanies, she lasts.</p></div>
+      <div class="promise"><div class="ic">◉</div><h4>The sky, right now</h4><p>What turns on the screen is what turns above you, at this very hour.</p></div>
+      <div class="promise"><div class="ic">◐</div><h4>Reflection, not fate</h4><p>A reading is something to think with. It predicts nothing and decides nothing for you.</p></div>
+      <div class="promise"><div class="ic">✶</div><h4>An AI, said plainly</h4><p>Zira, the guide you talk to, is an AI. She has memory and answers in eight languages.</p></div>
     </div>
-    <p class="signature">The stars mirror your inner world;<br>your inner world mirrors the stars.</p>
+    <p class="signature">As above, so below.</p>
   </div>
 </section>
 
 <section id="features">
   <div class="wrap reveal">
-    <span class="kicker">What ZIRA sees</span>
-    <h2>Living traditions, <em>gathered into one voice.</em></h2>
-    <p class="lead">Nine ways to be read — from the Tarot of Marseille to the sky turning above you right now. Each ancient, each reinterpreted for you.</p>
+    <span class="kicker">What ZIRA shows</span>
+    <h2>The sky first. <em>Then the cards and the numbers.</em></h2>
+    <p class="lead">Eight ways of reading, from the sky turning above you right now to a single card. Each is a way of looking, not a forecast. And one guide to talk to.</p>
     <div class="screens">
-      <figure class="screen"><div class="phone"><img src="/img/conversation.webp" width="540" height="1124" loading="lazy" alt="A reading from Zira in the chat."></div><figcaption><strong>Zira herself</strong>A conversation with memory.</figcaption></figure>
-      <figure class="screen"><div class="phone"><img src="/img/tirage.webp" width="540" height="1124" loading="lazy" alt="A tarot spread revealed in ZIRA."></div><figcaption><strong>Tarot</strong>Your spread, revealed card by card.</figcaption></figure>
+      <figure class="screen"><div class="phone"><img src="/img/theme-natal.webp" width="540" height="1124" loading="lazy" alt="A natal chart in ZIRA."></div><figcaption><strong>Your birth sky</strong>Planets, houses and angles at the hour you were born.</figcaption></figure>
+      <figure class="screen"><div class="phone"><img src="/img/tirage.webp" width="540" height="1124" loading="lazy" alt="A tarot spread revealed in ZIRA."></div><figcaption><strong>Tarot</strong>Your spread, turned card by card.</figcaption></figure>
       <figure class="screen"><div class="phone"><img src="/img/matrice.webp" width="540" height="1124" loading="lazy" alt="The Matrix of Destiny: tarot cards drawn from a birth date."></div><figcaption><strong>Matrix of Destiny</strong>Drawn from your birth date alone.</figcaption></figure>
-      <figure class="screen"><div class="phone"><img src="/img/theme-natal.webp" width="540" height="1124" loading="lazy" alt="A natal chart in ZIRA."></div><figcaption><strong>Your birth sky</strong>The planets at the hour you were born.</figcaption></figure>
+      <figure class="screen"><div class="phone"><img src="/img/conversation.webp" width="540" height="1124" loading="lazy" alt="A reading from Zira, the AI guide, in the chat."></div><figcaption><strong>Zira, the guide</strong>An AI you talk to, with memory.</figcaption></figure>
     </div>
     <div class="feat-grid">
-      <div class="feat"><span class="glyph">✦</span><span class="num">01</span><h3>Tarot</h3><p>78 cards, 11 spreads — from a single card to the Celtic Cross and the Tree of Life. Four deck styles, yours to choose.</p></div>
-      <div class="feat"><span class="glyph">◈</span><span class="num">02</span><h3>Carta Maghribia</h3><p>The 40-card baraja as it is read across the Maghreb. Ten spreads of its own, from the cross of five to the line of a life.</p></div>
-      <div class="feat"><span class="glyph">❋</span><span class="num">03</span><h3>Conscious Draw</h3><p>You give the numbers, the cards answer. A draw guided by your subconscious — for the questions you don't yet know how to ask.</p></div>
-      <div class="feat"><span class="glyph">◇</span><span class="num">04</span><h3>Matrix of Destiny</h3><p>Your birth date alone draws it: portrait, talents, lesson, karma, essence, the four ancestors, the mission. Computed once, yours for life.</p></div>
-      <div class="feat"><span class="glyph">☽</span><span class="num">05</span><h3>Vedic Kundli</h3><p>The sidereal chart of Jyotish — houses, planets, and the dashas that time your seasons.</p></div>
-      <div class="feat"><span class="glyph">☾</span><span class="num">06</span><h3>Live Sky</h3><p>The sky exactly as it turns above you now, in three dimensions — with your natal wheel and its aspects beside it.</p></div>
-      <div class="feat"><span class="glyph">∴</span><span class="num">07</span><h3>Numerology</h3><p>Pythagorean method: life path, expression, soul urge. Your numbers decoded.</p></div>
-      <div class="feat"><span class="glyph">◐</span><span class="num">08</span><h3>Lyoum — energy of the day</h3><p>Each day ruled by one of the seven planets — its hour, its colour, its stone. Your inner weather.</p></div>
-      <div class="feat"><span class="glyph">✶</span><span class="num">09</span><h3>Zira herself</h3><p>A conversation with memory. She knows your profile, remembers you, and grows as you return — in eight languages.</p></div>
+      <div class="feat"><span class="glyph">☾</span><span class="num">01</span><h3>Live Sky</h3><p>The sky as it turns above you now, in three dimensions. The planets circle the Earth, as in the old model, beside your natal wheel and its aspects.</p></div>
+      <div class="feat"><span class="glyph">◐</span><span class="num">02</span><h3>Energy of the day</h3><p>By tradition, each day is ruled by one of the seven classical planets. Here is today's: its hour, its colour, its stone.</p></div>
+      <div class="feat"><span class="glyph">☽</span><span class="num">03</span><h3>Vedic Kundli</h3><p>The sidereal chart of Jyotish: houses, planets, and the dashas, its planetary periods.</p></div>
+      <div class="feat"><span class="glyph">✦</span><span class="num">04</span><h3>Tarot</h3><p>78 cards and 11 spreads, from a single card to the Celtic Cross and the Tree of Life. Four deck styles to choose from.</p></div>
+      <div class="feat"><span class="glyph">◈</span><span class="num">05</span><h3>The 40-card baraja</h3><p>A Spanish-suited deck with ten spreads of its own, from the cross of five to the line of a life.</p></div>
+      <div class="feat"><span class="glyph">❋</span><span class="num">06</span><h3>Conscious Draw</h3><p>You give the numbers, the cards answer. It is a draw you take part in.</p></div>
+      <div class="feat"><span class="glyph">◇</span><span class="num">07</span><h3>Matrix of Destiny</h3><p>Drawn from your birth date alone: portrait, talents, lesson, karma, essence, the four ancestors, the mission.</p></div>
+      <div class="feat"><span class="glyph">∴</span><span class="num">08</span><h3>Numerology</h3><p>The Pythagorean method: life path, expression, soul urge. Numbers to think with, not to obey.</p></div>
+      <div class="feat"><span class="glyph">✶</span><span class="num">09</span><h3>Zira, the guide</h3><p>A conversational guide with memory, in eight languages. Zira is an AI. Your first 3 messages are free; after that, replies use tokens.</p></div>
     </div>
   </div>
 </section>
@@ -357,9 +383,9 @@
 
 <section id="where">
   <div class="wrap reveal">
-    <span class="kicker">Where to find her</span>
-    <h2>The sky was <em>already waiting</em> for you.</h2>
-    <p class="lead">One soul, several ways to meet her.</p>
+    <span class="kicker">Where to find it</span>
+    <h2>The sky is turning above you <em>as you read this.</em></h2>
+    <p class="lead">One sky, several ways in.</p>
     <div class="channels">
 <!-- LES QUATRE PORTES (owner, 2026-09-23), les deux ouvertes d'abord.
            1. L'APK Android, telecharge ICI, sans Google Play : voir android/.
@@ -378,7 +404,7 @@
       <div class="channel"><span class="tag">iOS · App Store</span><h4>App Store</h4><p>The native iPhone app.</p><span class="soon">Soon</span></div>
       <div class="channel highlight"><span class="tag">Android · Google Play</span><h4>Google Play</h4><p>ZIRA on the Play Store.</p><a class="dl" href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" target="_blank" rel="noopener">Get it on Google Play</a></div>
     </div>
-    <p class="sky-line">We are all under one sky. 🌙</p>
+    <p class="sky-line">We are all under one sky. Look up.</p>
   </div>
 </section>
 
@@ -389,8 +415,8 @@
       ZIRA
     </a>
     <div class="foot-links">
-      <a href="#story">The story</a>
-      <a href="#features">What ZIRA sees</a>
+      <a href="#story">Before Galileo</a>
+      <a href="#features">What ZIRA shows</a>
       <a href="#pricing">Pricing</a>
       <a href="#where">Get the app</a>
     </div>
@@ -400,7 +426,7 @@
       <a href="/privacy/">Privacy</a>
       <a href="mailto:zira.app.contact@gmail.com">Contact</a>
     </div>
-    <p class="copy">ZIRA — <span class="amz">ⵣⵉⵔⴰ</span> · moonlight · © 2026 Elmehdi Aghermaz · Meknès, Morocco</p>
+    <p class="copy">ZIRA — <span class="devise">The sky before Galileo</span> · © 2026 Elmehdi Aghermaz</p>
     <p class="thanks">This work could not have been built without Anthropic’s engine. Merci beaucoup.</p>
   </div>
 </footer>
