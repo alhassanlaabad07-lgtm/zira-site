@@ -343,6 +343,13 @@
         td[2].textContent = c.degre + '°' + (c.minute < 10 ? '0' : '') + c.minute + '′';
         td[3].textContent = (c.nom === 'Sun' || c.nom === 'Moon') ? '—' : (c.retro ? 'retrograde' : 'direct');
         td[3].className = c.retro ? 'retro' : '';
+        if (c.retro) {              // visible seulement quand la colonne « Motion » est cachée
+          var marque = document.createElement('abbr');
+          marque.className = 'marque-retro';
+          marque.title = 'retrograde';
+          marque.textContent = 'R';
+          td[2].appendChild(marque);
+        }
         phrases.push(c.nom + ' in ' + ZiraCiel.SIGNES[c.signe] + ' ' + c.degre + '°' + (c.retro ? ' (retrograde)' : ''));
       });
       desc.textContent = 'Earth at the centre. ' + phrases.join('; ') + '.';
@@ -351,8 +358,9 @@
         titreReleve.textContent = 'right now';
       } else {
         var heures = Math.abs(decalageCrans) * PAS_HEURES;
+        var jours = heures / 24;
         var ecart = heures < 24 ? heures + ' hours'
-          : (heures % 24 === 0 ? heures / 24 : (heures / 24).toFixed(1)) + (heures === 24 ? ' day' : ' days');
+          : (heures % 24 === 0 ? jours : jours.toFixed(2).replace(/0$/, '')) + (heures === 24 ? ' day' : ' days');
         sortie.textContent = dateLongue(date) + ' · ' + ecart + (decalageCrans > 0 ? ' from now' : ' ago');
         titreReleve.textContent = 'on ' + dateLongue(date);
       }
@@ -361,30 +369,47 @@
       return e;
     }
 
-    var e0 = afficher(0);
+    afficher(0);
 
-    // La Lune et les rendez-vous : toujours à partir de l'instant réel.
-    $('lune-phase').textContent = e0.lune.phase;
-    $('lune-eclairee').textContent = Math.round(e0.lune.eclairee * 100) + '% lit';
-    var disque = $('lune-dessin');
-    if (disque) {
-      disque.setAttribute('d', cheminDePhase(15, e0.lune.eclairee));
-      disque.setAttribute('transform', 'translate(20 20)' + (e0.lune.croissante ? '' : ' scale(-1 1)'));
+    // La Lune et les rendez-vous : toujours à partir de l'instant RÉEL, quel
+    // que soit le curseur, et tenus à jour tant que l'onglet reste ouvert.
+    function majLune() {
+      var lune = ZiraCiel.etat(A, new Date()).lune;
+      $('lune-phase').textContent = lune.phase;
+      $('lune-eclairee').textContent = Math.round(lune.eclairee * 100) + '% lit';
+      $('lune-dessin').setAttribute('d', cheminDePhase(15, lune.eclairee));
+      $('lune-dessin').setAttribute('transform', 'translate(20 20)' + (lune.croissante ? '' : ' scale(-1 1)'));
     }
     var genres = { penumbral: 'Penumbral', partial: 'Partial', annular: 'Annular', total: 'Total' };
-    setTimeout(function () {
-      var ev = ZiraCiel.evenements(A, new Date());
-      $('ev-nouvelle').textContent = rendezVous(ev.nouvelleLune);
-      $('ev-pleine').textContent = rendezVous(ev.pleineLune);
-      $('ev-lunaire').textContent = rendezVous(ev.eclipseLunaire.date);
-      $('ev-lunaire-genre').textContent = genres[ev.eclipseLunaire.genre] ? genres[ev.eclipseLunaire.genre] + '.' : '';
-      $('ev-solaire').textContent = rendezVous(ev.eclipseSolaire.date);
-      $('ev-solaire-genre').textContent = genres[ev.eclipseSolaire.genre] ? genres[ev.eclipseSolaire.genre] + '.' : '';
-    }, 0);
+    var prochainRendezVous = 0;
+    function majRendezVous() {
+      try {
+        var ev = ZiraCiel.evenements(A, new Date());
+        $('ev-nouvelle').textContent = rendezVous(ev.nouvelleLune);
+        $('ev-pleine').textContent = rendezVous(ev.pleineLune);
+        $('ev-lunaire').textContent = rendezVous(ev.eclipseLunaire.date);
+        // Une éclipse pénombrale se devine à peine : ne pas la promettre comme un spectacle.
+        $('ev-lunaire-note').textContent = ev.eclipseLunaire.genre === 'penumbral'
+          ? 'Penumbral: a faint shading, hard to see with the naked eye.'
+          : (genres[ev.eclipseLunaire.genre] || 'Lunar eclipse') + '. Seen from the night side of the Earth.';
+        $('ev-solaire').textContent = rendezVous(ev.eclipseSolaire.date);
+        $('ev-solaire-note').textContent = (genres[ev.eclipseSolaire.genre] || 'Solar eclipse') + '. Seen only from part of the Earth.';
+        prochainRendezVous = Math.min(ev.nouvelleLune.getTime(), ev.pleineLune.getTime(),
+          ev.eclipseLunaire.date.getTime(), ev.eclipseSolaire.date.getTime());
+      } catch (erreur) {
+        prochainRendezVous = Date.now() + 3600000;   // on réessaiera dans une heure
+      }
+    }
+    majLune();
+    setTimeout(majRendezVous, 0);
 
     curseur.addEventListener('input', function () { afficher(parseInt(curseur.value, 10)); });
     retour.addEventListener('click', function () { curseur.value = 0; afficher(0); curseur.focus(); });
-    setInterval(function () { if (parseInt(curseur.value, 10) === 0) afficher(0); }, 60000);
+    setInterval(function () {
+      if (parseInt(curseur.value, 10) === 0) afficher(0);
+      majLune();
+      if (Date.now() > prochainRendezVous) majRendezVous();
+    }, 60000);
 
     var attente = null;
     addEventListener('resize', function () {

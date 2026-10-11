@@ -29,7 +29,7 @@
 <meta name="theme-color" content="#070524">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;1,300;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <!--
   RECONSTRUITE LE 2026-10-11 — « ZIRA : The sky before Galileo » (owner).
   Premiere pierre de la nouvelle identite, celle qu'on presente a Apple.
@@ -79,6 +79,8 @@
   body{font-family:var(--body);background:var(--deep);color:var(--ink);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
   a{color:inherit}
   :focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px}
+  .evitement{position:absolute;left:12px;top:-60px;z-index:100;background:var(--offwhite);color:var(--deep);padding:10px 16px;border-radius:8px;font-size:.86rem;text-decoration:none}
+  .evitement:focus{top:12px}
 
   .sky{position:fixed;inset:0;z-index:-2;
     background:
@@ -92,7 +94,7 @@
   /* ── Menu ── */
   nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
     padding:20px 32px;transition:padding .4s ease, background .4s ease}
-  nav.scrolled{padding:12px 32px;background:rgba(5,3,24,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav.scrolled{padding:12px 32px;background:rgba(5,3,24,.78);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   .logo{font-family:var(--display);font-size:1.5rem;letter-spacing:.32em;font-weight:500;color:var(--offwhite);
     text-decoration:none;display:flex;align-items:center;gap:11px}
   .navlinks{display:flex;gap:30px;align-items:center}
@@ -100,7 +102,7 @@
   .navlinks a:hover{color:var(--cyan)}
   .nav-cta{border:1px solid var(--line);padding:8px 18px;border-radius:40px;color:var(--offwhite)!important}
   .nav-cta:hover{border-color:var(--cyan)}
-  .burger{display:none;background:none;border:0;color:var(--offwhite);font-size:1.4rem;cursor:pointer;padding:4px 8px}
+  .burger{display:none;background:none;border:0;color:var(--offwhite);font-size:1.4rem;cursor:pointer;padding:10px 12px}
 
   /* ── Ouverture : la devise a gauche, l'instrument a droite ── */
   .hero{max-width:1160px;margin:0 auto;min-height:100vh;min-height:100svh;padding:104px 28px 48px;
@@ -116,7 +118,7 @@
   .cta-row{display:flex;gap:14px;flex-wrap:wrap}
   .btn{padding:14px 28px;border-radius:44px;font-size:.86rem;letter-spacing:.05em;text-decoration:none;
     transition:transform .3s, box-shadow .3s, border-color .3s, background .3s;border:1px solid transparent;display:inline-flex;align-items:center;gap:10px}
-  .btn-primary{background:linear-gradient(120deg,var(--cyan),var(--royal));color:var(--deep);font-weight:600;box-shadow:0 0 30px rgba(0,212,255,.26)}
+  .btn-primary{background:linear-gradient(120deg,var(--cyan),#49A8EE);color:var(--deep);font-weight:600;box-shadow:0 0 30px rgba(0,212,255,.26)}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(0,212,255,.45)}
   .btn-ghost{border-color:var(--line);color:var(--offwhite)}
   .btn-ghost:hover{border-color:var(--cyan);background:rgba(0,212,255,.06)}
@@ -130,7 +132,7 @@
   .i-div{stroke:rgba(240,244,255,.36);stroke-width:1}
   .i-tic{stroke:rgba(240,244,255,.24);stroke-width:1}
   .i-signe{font:500 12px var(--body);letter-spacing:.2em;fill:rgba(240,244,255,.78)}
-  .i-nom{font:500 8px var(--body);letter-spacing:.24em;fill:rgba(240,244,255,.46)}
+  .i-nom{font:500 8px var(--body);letter-spacing:.24em;fill:rgba(240,244,255,.6)}
   .i-centre{fill:rgba(240,244,255,.6)}
   .i-terre-bord{fill:none;stroke:rgba(240,244,255,.5);stroke-width:.8}
   .i-rayon{stroke:rgba(0,212,255,.17);stroke-width:1}
@@ -175,9 +177,13 @@
   .releve tbody tr.actif{background:rgba(0,212,255,.07)}
   .releve .chiffres{font-variant-numeric:tabular-nums;color:var(--offwhite)}
   .releve .retro{color:var(--gold)}
+  /* La colonne « Motion » disparait sur un petit ecran : la marque R prend le relais. */
+  .marque-retro{display:none;color:var(--gold);font-weight:600;text-decoration:none;margin-left:6px}
   .releve td:last-child{color:var(--ink-soft);font-size:.86rem}
   .pastille{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:12px;vertical-align:middle}
-  .almanach{display:grid;gap:14px}
+  /* Sans le calcul, les cartes n'auraient qu'un tiret a montrer. */
+  .almanach{display:none;gap:14px}
+  .ciel-vivant .almanach{display:grid}
   .carte{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:rgba(7,5,36,.45);display:flex;flex-direction:column;gap:4px}
   .carte strong{font-family:var(--display);font-size:1.3rem;font-weight:500;color:var(--offwhite);font-variant-numeric:tabular-nums}
   .carte .petit{font-size:.82rem;color:var(--ink-soft)}
@@ -238,7 +244,7 @@
   .copy{font-size:.76rem;color:var(--ink-soft);letter-spacing:.04em}
   .copy .devise{color:var(--gold)}
   /* Lignes de credit : elles creditent, elles ne reclament pas le regard. */
-  .thanks{font-size:.72rem;color:var(--ink-soft);opacity:.75;letter-spacing:.04em;margin-top:10px}
+  .thanks{font-size:.72rem;color:var(--ink-soft);letter-spacing:.04em;margin-top:10px}
   .thanks a{color:inherit}
 
   /* L'entree en scene de l'ouverture — rien d'autre ne depend d'une animation
@@ -260,9 +266,10 @@
   }
   @media(max-width:720px){
     .navlinks{position:fixed;top:0;right:0;left:auto;height:100vh;height:100dvh;width:74%;max-width:320px;z-index:55;
-      background:rgba(5,3,24,.97);backdrop-filter:blur(20px);
-      flex-direction:column;justify-content:center;gap:30px;transform:translateX(100%);transition:transform .4s;border-left:1px solid var(--line)}
-    .navlinks.open{transform:none}
+      background:rgba(5,3,24,.97);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);
+      flex-direction:column;justify-content:center;gap:30px;transform:translateX(100%);visibility:hidden;
+      transition:transform .4s,visibility 0s .4s;border-left:1px solid var(--line)}
+    .navlinks.open{transform:none;visibility:visible;transition:transform .4s}
     .burger{display:block;z-index:60}
     nav,nav.scrolled{padding-left:20px;padding-right:20px}
     section{padding:72px 0}
@@ -278,7 +285,8 @@
     .releve{font-size:.9rem}
     .releve th,.releve td{padding-right:6px}
     .releve tbody th{font-size:1.1rem}
-    .releve thead th:last-child,.releve td:last-child{display:none}
+    .releve thead th:nth-child(4),.releve tbody td:nth-child(4){display:none}
+    .marque-retro{display:inline}
     .pastille{margin-right:8px}
   }
   @media (prefers-reduced-motion: reduce){
@@ -297,6 +305,7 @@
   </symbol>
 </svg>
 
+<a class="evitement" href="#contenu">Skip to content</a>
 <div class="sky"></div>
 <canvas id="skyfield" aria-hidden="true"></canvas>
 
@@ -314,6 +323,7 @@
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="menu">☰</button>
 </nav>
 
+<main id="contenu">
 <header class="hero" id="top">
   <div class="hero-texte">
     <svg class="sigil monte" viewBox="-0.26 0.00 348.85 315.68" aria-hidden="true"><use href="#zira-mark"/></svg>
@@ -340,7 +350,7 @@
       <circle cx="320" cy="320" r="254" class="i-orbe tard"/><circle cx="320" cy="320" r="13" fill="#1B57B8"/>
     </svg>
     <figcaption>
-      <p class="quand" id="ciel-quand">The live positions need JavaScript.</p>
+      <p class="quand" id="ciel-quand">The live positions are computed in your browser; they could not be computed here.</p>
       <div class="temps">
         <label for="ciel-temps">Turn the sky</label>
         <input type="range" id="ciel-temps" min="-360" max="360" step="1" value="0">
@@ -359,7 +369,7 @@
       <table class="releve">
         <caption>The sky <span id="ciel-releve-titre">right now</span>, seen from the Earth</caption>
         <thead><tr><th scope="col">Body</th><th scope="col">Sign</th><th scope="col">Position</th><th scope="col">Motion</th></tr></thead>
-        <tbody id="ciel-releve"><tr><td colspan="4">The live positions need JavaScript.</td></tr></tbody>
+        <tbody id="ciel-releve"><tr><td colspan="4">The live positions are computed in your browser; they could not be computed here.</td></tr></tbody>
       </table>
       <div class="almanach">
         <div class="carte lune">
@@ -368,11 +378,11 @@
         </div>
         <div class="carte"><span class="etiquette">Next new Moon</span><strong id="ev-nouvelle">—</strong></div>
         <div class="carte"><span class="etiquette">Next full Moon</span><strong id="ev-pleine">—</strong></div>
-        <div class="carte"><span class="etiquette">Next lunar eclipse</span><strong id="ev-lunaire">—</strong><span class="petit"><span id="ev-lunaire-genre"></span> Seen from the night side of the Earth.</span></div>
-        <div class="carte"><span class="etiquette">Next solar eclipse</span><strong id="ev-solaire">—</strong><span class="petit"><span id="ev-solaire-genre"></span> Seen only from part of the Earth.</span></div>
+        <div class="carte"><span class="etiquette">Next lunar eclipse</span><strong id="ev-lunaire">—</strong><span class="petit" id="ev-lunaire-note"></span></div>
+        <div class="carte"><span class="etiquette">Next solar eclipse</span><strong id="ev-solaire">—</strong><span class="petit" id="ev-solaire-note"></span></div>
       </div>
     </div>
-    <p class="fine">Positions are measured from the Earth, along the tropical zodiac. “Retrograde” means a planet appears to move backwards against the stars for a while, as seen from here. Times are in your local time. The calculation runs entirely in your browser.</p>
+    <p class="fine">Positions are measured from the Earth, along the tropical zodiac. “Retrograde” means a planet appears to move backwards against the stars for a while, as seen from here. The Moon is drawn as seen from the northern hemisphere. Times are in your local time. The calculation runs entirely in your browser.</p>
   </div>
 </section>
 
@@ -428,7 +438,7 @@
     <p class="rang">The guide</p>
     <div class="le-guide">
       <h3>Zira</h3>
-      <p>A conversational guide who knows your profile, in seven languages. Zira is an AI: her replies are written by a language model, from your messages and from the profile you choose to share.</p>
+      <p>A conversational guide who knows your profile, in seven languages. Zira is an AI: her replies are written by a language model from OpenAI, from your messages and from the profile you choose to share.</p>
     </div>
   </div>
 </section>
@@ -455,16 +465,18 @@
 
     <!-- CE QUI EST GRATUIT — et aucun prix. Seules les reponses de Zira
          comptent des jetons (zira-ai/chat_v3.py) ; sur Google Play rien ne se
-         vend : une courte video ouvre une reponse (privacy/). L'ancre
+         vend : une courte video publicitaire ouvre une reponse (privacy/) ;
+         le build iOS vendra par l'achat integre d'Apple. L'ancre
          #pricing reste pour les liens des pages legales et de 404.html. -->
     <div class="gratuit" id="pricing">
       <h3>What is free</h3>
-      <p>The live sky, your chart and every draw are free to use. Your first 3 messages with Zira are free as well. After that, in the Google Play app, you can choose to watch a short video to receive a reply: ZIRA sells nothing there.</p>
-      <p>No account, no password. Your profile and your conversations are stored on your device; our server uses them only while Zira writes her reply, and does not keep them. The details are in the <a href="/privacy/">Privacy Policy</a> and the <a href="/terms/">Terms of Service</a>.</p>
+      <p>The live sky, your chart and every draw are free to use. Your first 3 messages with Zira are free as well. After that, in the Google Play app, you can choose to watch a short advertising video, shown by Google AdMob, to receive a reply: ZIRA sells nothing there. In the iPhone app, once it is available, further replies will use tokens bought through Apple’s in-app purchase.</p>
+      <p>No account, no password. What ZIRA does with your data is set out in the <a href="/privacy/">Privacy Policy</a>; the rules of the service are in the <a href="/terms/">Terms of Service</a>.</p>
     </div>
     <p class="sky-line">We are all under one sky. Look up.</p>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="wrap">
@@ -491,15 +503,15 @@
 </footer>
 
 <!-- Le ciel : la bibliotheque d'abord, puis le calcul et le dessin de la page. -->
-<script src="/vendor/astronomy.browser.min.js" defer></script>
-<script src="/ciel.js" defer></script>
+<script src="/vendor/astronomy.browser.min.js?v=2.1.19" defer></script>
+<script src="/ciel.js?v=20261011" defer></script>
 <script>
   /* === Skyfield: realistic stars + rare meteors (replaces old DOM dots) === */
   (function(){
     const calme=matchMedia('(prefers-reduced-motion: reduce)').matches; // ciel fixe, sans etoile filante
     const canvas=document.getElementById('skyfield');
     const ctx=canvas.getContext('2d');
-    let W=0,H=0,dpr=1,stars=[],meteors=[],rafId=null,lastT=0,nextMeteorAt=0;
+    let W=0,H=0,dpr=1,stars=[],meteors=[],rafId=null,lastT=0,nextMeteorAt=0,largeurDesEtoiles=-1;
 
     function resize(){
       dpr=Math.min(window.devicePixelRatio||1,2);
@@ -507,7 +519,7 @@
       canvas.width=Math.round(W*dpr);canvas.height=Math.round(H*dpr);
       canvas.style.width=W+'px';canvas.style.height=H+'px';
       ctx.setTransform(dpr,0,0,dpr,0,0);
-      buildStars();
+      if(W!==largeurDesEtoiles){largeurDesEtoiles=W;buildStars();} // pas a chaque repli de la barre d'adresse
     }
 
     /* magnitude distribution: few bright stars, many faint ones */
