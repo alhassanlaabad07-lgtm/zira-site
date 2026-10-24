@@ -455,22 +455,27 @@
         <p>ZIRA is on the Play Store.</p>
         <a class="btn btn-primary" href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" target="_blank" rel="noopener">Get it on Google Play</a>
       </div>
-      <div class="porte">
+      <!-- 2026-10-24, owner : l'iPhone passe par le navigateur, pas par
+           l'App Store. /app/ = l'export `npm run export:web -- --pubs`
+           (zira-v4-app/docs/WEB_PUBS.md). -->
+      <div class="porte ouverte">
         <span class="etiquette">iPhone</span>
-        <h3>App Store</h3>
-        <p>The iPhone app is not on the App Store yet.</p>
-        <span class="etat">Not available yet</span>
+        <h3>In Safari</h3>
+        <p>On iPhone, ZIRA opens in Safari, with nothing to download. Add it to your Home Screen and it opens full screen, like an app.</p>
+        <a class="btn btn-primary" href="/app/">Open ZIRA in Safari</a>
       </div>
     </div>
 
     <!-- CE QUI EST GRATUIT — et aucun prix. Seules les reponses de Zira
-         comptent des jetons (zira-ai/chat_v3.py) ; sur Google Play rien ne se
-         vend : une courte video publicitaire ouvre une reponse (privacy/) ;
-         le build iOS vendra par l'achat integre d'Apple. L'ancre
-         #pricing reste pour les liens des pages legales et de 404.html. -->
+         comptent des jetons (zira-ai/chat_v3.py) ; sur Google Play et dans la
+         version navigateur rien ne se vend : une courte video publicitaire
+         ouvre une reponse (privacy/). Les videos du navigateur s'allument
+         depuis Render (WEB_PUBS_*) : tant qu'elles sont fermees, l'app dit
+         « bientot ». L'ancre #pricing reste pour les liens des pages
+         legales et de 404.html. -->
     <div class="gratuit" id="pricing">
       <h3>What is free</h3>
-      <p>The live sky, your chart and every draw are free to use. Your first 3 messages with Zira are free as well. After that, in the Google Play app, you can choose to watch a short advertising video, shown by Google AdMob, to receive a reply: ZIRA sells nothing there. In the iPhone app, once it is available, further replies will use tokens bought through Apple’s in-app purchase.</p>
+      <p>The live sky, your chart and every draw are free to use. Your first 3 messages with Zira are free as well. After that, in the Google Play app, you can choose to watch a short advertising video, shown by Google AdMob, to receive a reply: ZIRA sells nothing there. The web app works the same way; its videos are opening soon.</p>
       <p>No account, no password. What ZIRA does with your data is set out in the <a href="/privacy/">Privacy Policy</a>; the rules of the service are in the <a href="/terms/">Terms of Service</a>.</p>
     </div>
     <p class="sky-line">We are all under one sky. Look up.</p>
