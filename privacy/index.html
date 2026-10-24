@@ -57,9 +57,12 @@
   - le serveur garde, avec chaque vidéo créditée, une empreinte HMAC de
     l'adresse IP (12 caractères, jamais l'adresse) dans external_ref, pour
     compter les vidéos par adresse (pubs_web_router.py) ;
-  - le formulaire de consentement de Google est OBLIGATOIRE pour exporter la
-    version publiable (exporter-web.js refuse sans EXPO_PUBLIC_GPT_CMP_PUB) ;
-    « Ad privacy choices » apparaît sous le bouton de la vidéo.
+  - le formulaire de consentement de Google est OBLIGATOIRE : le serveur
+    n'ouvre les vidéos qu'avec WEB_PUBS_CMP, et l'app ne charge GPT qu'après
+    le formulaire (s'il ne se charge pas, GPT non plus) ; « Ad privacy
+    choices » apparaît sous le bouton de la vidéo quand gdprApplies ;
+  - tant que Render n'a pas WEB_PUBS_SECRET, WEB_PUBS_UNITE et WEB_PUBS_CMP,
+    rien de Google n'est chargé du tout.
   Les pages du site, elles, ne posent toujours aucun cookie.
 
   Deux copies plus anciennes existent encore : zira-ai/static/privacy.html
