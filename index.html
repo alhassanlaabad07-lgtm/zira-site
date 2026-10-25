@@ -332,9 +332,29 @@
     <p class="tagline monte d3">The sky <em>before Galileo.</em></p>
     <p class="sub monte d4">For millennia, people read the sky with the naked eye, the Earth at the centre. ZIRA shows it turning right now, in three dimensions, with your birth chart beside it.</p>
     <div class="cta-row monte d5">
-      <a href="https://play.google.com/store/apps/details?id=com.alhassan.ziraapp" class="btn btn-primary" target="_blank" rel="noopener">Get it on Google Play</a>
+      <!-- « Get the app » (owner, 2026-10-25) : UN bouton pour les deux
+           téléphones. Android → la fiche Google Play ; iPhone/iPad → ZIRA
+           dans Safari (/app/). Ailleurs, ou sans JavaScript, il descend à
+           « Where to find it », qui montre les deux portes. -->
+      <a href="#get" class="btn btn-primary" id="obtenir-app">Get the app</a>
       <a href="#sky" class="btn btn-ghost">Read the sky now</a>
     </div>
+    <script>
+      (function () {
+        var a = document.getElementById('obtenir-app');
+        if (!a) return;
+        var ua = navigator.userAgent || '';
+        // L'iPad récent se dit « Macintosh » : on le reconnaît au tactile.
+        var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+        if (/Android/i.test(ua)) {
+          a.href = 'https://play.google.com/store/apps/details?id=com.alhassan.ziraapp';
+          a.target = '_blank';
+          a.rel = 'noopener';
+        } else if (ios) {
+          a.href = '/app/';
+        }
+      })();
+    </script>
   </div>
 
   <!-- L'instrument. Sans JavaScript, il reste la plaque nue : les astres et
